@@ -26,3 +26,13 @@ This folder is the portable brain. Any harness (Claude Code, Cursor, Windsurf, O
 
 ## Memory (read in this order)
 - `memory/PREFERENCES.md` — stable user conventions
+
+## Installation and updates
+
+Do not read during normal agent startup; 
+Read this section only when configuring, installing, or updating the stack, it is operational guidance,
+not runtime context.
+
+### Skills
+Skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
+It links project skills to shared skill store at `~/.skills-manager` (by default).
