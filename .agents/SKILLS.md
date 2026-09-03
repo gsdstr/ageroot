@@ -1,5 +1,7 @@
 # Project skills
 
+<!-- generated-by: ageroot; template: 0.1.0; rendered-at: 2026-09-03T00:00:00Z -->
+
 Project skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
 It creates symlinks from this project to shared skill store at `~/.skills-manager`.
 
@@ -9,6 +11,8 @@ It creates symlinks from this project to shared skill store at `~/.skills-manage
 - Do not copy skill directories into this repository or edit linked skill contents here.
 - Read this file only when configuring or updating skills; it is not required at normal agent startup.
 - Keep this list aligned with project needs. Categorization is policy, not an installed-state report.
+- Required skills may be installed globally. A project symlink is needed only when
+  the project must pin or otherwise manage that skill locally.
 
 ## Required
 

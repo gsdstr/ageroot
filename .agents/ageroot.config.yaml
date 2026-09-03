@@ -1,0 +1,7 @@
+schema: 1
+
+project:
+  name: agentic-stack
+
+agent:
+  language: en

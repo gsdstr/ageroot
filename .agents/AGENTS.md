@@ -1,5 +1,7 @@
 # Agent Infrastructure
 
+<!-- generated-by: ageroot; template: 0.1.0; rendered-at: 2026-09-03T00:00:00Z -->
+
 <!-- caveman-begin -->
 Respond terse like smart caveman. All technical substance stay. Only fluff die.
 
@@ -22,17 +24,25 @@ Boundaries: code/commits/PRs written normal.
 use @rtk:`rules/rtk-rules.md`
 <!-- rtk-end -->
 
-This folder is the portable brain. Any harness (Claude Code, Cursor, Windsurf, OpenCode, OpenClaw, Copilot CLI, Gemini, Hermes, Pi, Codex, standalone Python, Antigravity) can mount it and get the same memory, skills, and protocols.
+This folder is portable Ageroot instructions. Any harness (Claude Code, Cursor, Windsurf, OpenCode, OpenClaw, Copilot CLI, Gemini, Hermes, Pi, Codex, standalone Python, Antigravity) can mount it and use the same skills and protocols.
 
-## Memory (read in this order)
-- `memory/PREFERENCES.md` — stable user conventions
+## Preferences
+- `PREFERENCES.md` — stable user conventions
+
+## Protocols
+- `protocols/permissions.md` — read before any tool call
+- `protocols/tool_schemas/` — typed interfaces for external tools
+- `protocols/delegation.md` — rules for sub-agent handoff
 
 ## Installation and updates
 
-Do not read during normal agent startup; 
-Read this section only when configuring, installing, or updating the stack, it is operational guidance,
-not runtime context.
+Do not read during normal agent startup. Read this section only when configuring,
+installing, or updating Ageroot.
+
+Follow [`SETUP.md`](SETUP.md) for Ageroot configuration and update protocol.
 
 ### Skills
+
 Skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
 It links project skills to shared skill store at `~/.skills-manager` (by default).
+Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.

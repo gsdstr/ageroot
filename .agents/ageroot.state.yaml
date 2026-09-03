@@ -1,0 +1,25 @@
+schema: 1
+
+template:
+  name: ageroot
+  version: 0.1.0
+  source: local
+
+installed_at: 2026-09-03T00:00:00Z
+rendered_at: 2026-09-03T00:00:00Z
+
+managed_files:
+  - path: .agents/AGENTS.md
+    strategy: generated
+  - path: .agents/PREFERENCES.md
+    strategy: generated
+  - path: .agents/SETUP.md
+    strategy: generated
+  - path: .agents/SKILLS.md
+    strategy: generated
+  - path: .agents/rules/rtk-rules.md
+    strategy: generated
+  - path: .agents/protocols/
+    strategy: generated
+  - path: .agents/skills/
+    strategy: external-link
