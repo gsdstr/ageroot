@@ -4,7 +4,7 @@ Control repository for Ageroot, personal drop-in agent infrastructure.
 
 ## Contents
 
-- `as_template/` — copyable Ageroot template: agent instructions, setup,
+- `ageroot_template/` — copyable Ageroot template: agent instructions, setup,
   skills policy, and portable protocols.
 - `as_memory-skills/` — development source and tests for memory-lifecycle
   skills.
@@ -13,5 +13,5 @@ Control repository for Ageroot, personal drop-in agent infrastructure.
 
 ## Use
 
-Copy `as_template/` into a new repository, set
+Copy `ageroot_template/` into a new repository, set
 `.agents/ageroot.config.yaml`, then follow `.agents/SETUP.md`.

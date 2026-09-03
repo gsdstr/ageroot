@@ -1,6 +1,6 @@
 # Project skills
 
-<!-- generated-by: ageroot; template: 0.1.0; rendered-at: 2026-09-03T00:00:00Z -->
+<!-- generated-by: ageroot; template: 0.1.0; commit: 74c83c9; rendered-at: 2026-09-03T00:00:00Z -->
 
 Project skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
 It creates symlinks from this project to shared skill store at `~/.skills-manager`.

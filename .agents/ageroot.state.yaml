@@ -4,6 +4,7 @@ template:
   name: ageroot
   version: 0.1.0
   source: local
+  commit: 74c83c9
 
 installed_at: 2026-09-03T00:00:00Z
 rendered_at: 2026-09-03T00:00:00Z
