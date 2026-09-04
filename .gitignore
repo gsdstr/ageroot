@@ -1,5 +1,5 @@
 # Project-local state; create it in each consuming project.
-/.planning/
+#/.planning/
 
 /as_memory-skills/
 /ageroot_template/
