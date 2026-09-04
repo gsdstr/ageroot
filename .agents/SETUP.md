@@ -1,9 +1,16 @@
 # Ageroot Setup and Updates
 
-<!-- generated-by: ageroot; template: 0.1.0; commit: 74c83c9; rendered-at: 2026-09-03T00:00:00Z -->
+<!-- generated-by: ageroot; template: <template-version>; commit: <short-git-commit>; rendered-at: <ISO-8601 timestamp> -->
 
 Use this document only when installing, configuring, or updating Ageroot. Do not
 load it during normal agent startup.
+
+## Drop-in installation scope
+
+The Ageroot drop-in payload consists only of the root `AGENTS.md` adapter and
+the `.agents/` tree. During installation or update, copy and compare only those
+paths. Other files in the template repository are repository-development
+material and are not installed into consuming projects.
 
 ## Configuration and state
 
@@ -64,7 +71,7 @@ Only Ageroot updates this file after approved installation or update work.
 Ageroot uses a safety-first dry-run comparison before any update is applied.
 
 1. **Render**: Re-render every managed template from current configuration and templates.
-2. **Normalize**: Deterministically normalize content (line endings, final newline, trailing whitespace, and safe Markdown/YAML formatting noise without altering YAML data/ordering or Markdown text/structure).
+2. **Normalize**: Deterministically normalize content (line endings, final newline, trailing whitespace, safe Markdown/YAML formatting noise, and `generated-by` provenance fields without altering YAML data/ordering or Markdown text/structure). A difference solely in the `generated-by` template version, commit, or render timestamp is metadata-only: classify it as `unchanged` and omit it from the diff.
 3. **Compare**:
    - **Renderer-owned (`generated`, `managed-regions`)**: Perform three-way comparison between `current`, `new render`, and `prior rendered snapshot`.
      - When `snapshots: disabled`, legacy installations without snapshots, or after an explicit one-time override: perform two-way `unverified` comparison and label clearly.
@@ -84,6 +91,7 @@ Ageroot uses a safety-first dry-run comparison before any update is applied.
 5. **Report (Summary-first confirmation)**:
    - Present a tiered summary: counts for `changed` and `unchanged` paths; path-level reason, apply eligibility, and full-diff access for `conflict` and `blocked` paths.
    - Summary alone permits confirmation; complete diffs remain available on request.
+   - Exclude `.planning/` completely from Ageroot discovery, rendering, comparison, and reporting; it belongs to the planning-with-files skill.
 6. **Confirm**: Wait for explicit user confirmation before applying.
 7. **Atomic apply**:
    - Only apply if all paths are eligible (`changed`, `unverified`, `region-merge`, `unchanged`).
@@ -117,4 +125,3 @@ Rendered Markdown files use this marker when their format permits it:
 ```
 
 The marker does not restrict edits and cannot replace state tracking.
-
