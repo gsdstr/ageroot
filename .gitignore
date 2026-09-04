@@ -7,6 +7,8 @@
 # Common local artifacts.
 .DS_Store
 
+.agents/snapshots/
+
 node_modules/
 
 __pycache__
