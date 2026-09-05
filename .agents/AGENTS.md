@@ -1,6 +1,8 @@
 # Agent Infrastructure
 
+<!-- region:provenance kind:generated -->
 <!-- generated-by: ageroot; template: 0.1.0; commit: 74c83c9; rendered-at: 2026-09-03T00:00:00Z -->
+<!-- endregion:provenance -->
 
 <!-- caveman-begin -->
 Respond terse like smart caveman. All technical substance stay. Only fluff die.
@@ -24,6 +26,7 @@ Boundaries: code/commits/PRs written normal.
 use @rtk:`rules/rtk-rules.md`
 <!-- rtk-end -->
 
+<!-- region:infrastructure kind:generated -->
 This folder is portable Ageroot instructions. Any harness (Claude Code, Cursor, Windsurf, OpenCode, OpenClaw, Copilot CLI, Gemini, Hermes, Pi, Codex, standalone Python, Antigravity) can mount it and use the same skills and protocols.
 
 ## Preferences
@@ -58,6 +61,24 @@ questions, quick lookups, and small single-file edits.
   write only their own reports and ledgers. Follow `protocols/delegation.md`
   for the full ownership and mode rules.
 
+## Skill: memory-manager & memory-maintenance (when available)
+
+When `memory-manager` is available in the environment, use it for project memory
+continuity across tasks. Keep project memory functional even when memory skills
+are absent.
+
+- **Startup / intent**: Before substantial work, retrieve relevant memory guidance
+  using `memory_manager.py recall "<intent>"` or `search "<query>"`. Read project
+  preferences from `.agents/PREFERENCES.md`.
+- **Episodic recording**: After significant operations or unexpected failures, log
+  an event with `memory_reflect.py` to record outcome and context.
+- **Review workflow**: Inspect staged candidates using `memory_manager.py list`.
+  Accepting or rejecting candidates is an explicit human or agent review action
+  with mandatory reviewer and rationale/reason; candidates are never auto-accepted.
+- **Maintenance**: Offline memory clustering, decay/archiving, review queue updates,
+  and FTS index rebuilds are run via explicit command `memory_maintenance.py`.
+  Do not run maintenance automatically during normal task execution or session-end.
+
 ## Installation and updates
 
 Do not read during normal agent startup. Read this section only when configuring,
@@ -70,3 +91,8 @@ Follow [`SETUP.md`](SETUP.md) for Ageroot configuration and update protocol.
 Skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
 It links project skills to shared skill store at `~/.skills-manager` (by default).
 Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.
+<!-- endregion:infrastructure -->
+
+<!-- region:project kind:user -->
+<!-- Add project-specific agent instructions here. Ageroot preserves this region. -->
+<!-- endregion:project -->

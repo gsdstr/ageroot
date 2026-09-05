@@ -1,6 +1,6 @@
 # Ageroot
 
-Ageroot renders and updates a portable agent-infrastructure stack in a project. This context names the update concepts that define its safety boundary.
+Ageroot renders and updates a portable agent-infrastructure stack in a project. This context names its update safety concepts and project-memory responsibilities.
 
 ## Language
 
@@ -83,3 +83,15 @@ _Avoid_: semantic normalization, lossy formatting
 **Comparison result class**:
 The fixed outcome vocabulary for one managed path: `unchanged`, `changed`, `unverified`, `region-merge`, `conflict`, `blocked`, `invalid-link`, or `deletion-pending`.
 _Avoid_: ad-hoc status, ambiguous warning
+
+**Memory workflow**:
+Use of project memory while carrying out a task, including retrieval, recording experiences, and explicit review of proposed knowledge. It adds to experience and knowledge histories without replacing existing entries.
+_Avoid_: memory maintenance, task planning
+
+**Memory maintenance**:
+Work on accumulated project memory outside the active task, including synthesis, archival, cleanup, and search-index upkeep. It may reorganize stored memory but does not automatically accept proposed knowledge.
+_Avoid_: memory workflow, automatic knowledge acceptance
+
+**Project preferences**:
+User-authored conventions for a specific project, distinct from experiences and knowledge accumulated by agents. They have one authoritative record and are referenced by the agent instructions.
+_Avoid_: personal memory, learned preferences

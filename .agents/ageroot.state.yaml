@@ -3,18 +3,18 @@ template:
   name: ageroot
   version: 0.1.0
   source: local
-  commit: 09732b6
+  commit: cfe447d
 installed_at: '2026-09-03T00:00:00Z'
-rendered_at: '2026-09-04T10:23:39Z'
+rendered_at: '2026-09-05T12:45:04Z'
 managed_files:
 - path: AGENTS.md
   strategy: generated
   snapshot: .agents/snapshots/AGENTS.md
   sha256: 7f6bedc46bceeaff0fded6d2ff233ee305853987585865a8f5d34cc3f702a947
 - path: .agents/AGENTS.md
-  strategy: generated
+  strategy: managed-regions
   snapshot: .agents/snapshots/.agents/AGENTS.md
-  sha256: 34b9e4dc95c4f7e90be7ef829e6c341ee95849eebd844dbdd488c1827c692446
+  sha256: b7a8ea52dfc5e6583ab3ba3416e3b4d22ad950f2c00c2112129ad31660fd6343
 - path: .agents/PREFERENCES.md
   strategy: generated
   snapshot: .agents/snapshots/.agents/PREFERENCES.md
@@ -26,7 +26,7 @@ managed_files:
 - path: .agents/SKILLS.md
   strategy: generated
   snapshot: .agents/snapshots/.agents/SKILLS.md
-  sha256: afd9ee4a1123b8a1cf65938c2fab415c1983a59ad34037c3a562d1818722f451
+  sha256: ef832bd91d7f3a155bfbf6dcc55fc9090cd8a6c29154ab98591ba0dbbbd5d50d
 - path: .agents/rules/rtk-rules.md
   strategy: generated
   snapshot: .agents/snapshots/.agents/rules/rtk-rules.md

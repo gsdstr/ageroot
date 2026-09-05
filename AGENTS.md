@@ -9,6 +9,11 @@ Read `.agents/AGENTS.md` before doing any work.
 ## Hard rules
 - No force push to `main`, `production`, `staging`.
 
+## Managed `.agents/AGENTS.md`
+
+`.agents/AGENTS.md` uses `managed-regions`. Keep its markers intact and add
+project-specific instructions only in its `project` user region.
+
 ## Agent skills
 
 ### Issue tracker
