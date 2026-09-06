@@ -29,8 +29,7 @@ use @rtk:`rules/rtk-rules.md`
 <!-- region:infrastructure kind:generated -->
 This folder is portable Ageroot instructions. Any harness (Claude Code, Cursor, Windsurf, OpenCode, OpenClaw, Copilot CLI, Gemini, Hermes, Pi, Codex, standalone Python, Antigravity) can mount it and use the same skills and protocols.
 
-## Preferences
-- `PREFERENCES.md` — stable user conventions
+- Always read and respect project preferences from `.agents/PREFERENCES.md`!
 
 ## Protocols
 - `protocols/permissions.md` — read before any tool call
