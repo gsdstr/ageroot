@@ -60,6 +60,14 @@ _Avoid_: persistent integrity bypass, baseline acceptance
 The atomic persistence of every new rendered baseline snapshot, its SHA-256, and state only after every managed change has applied successfully.
 _Avoid_: per-file snapshot commit, deferred snapshot update
 
+**Update engine**:
+The unified module that runs a safety-first dry-run comparison over new renders and executes atomic apply with transactional snapshot commit.
+_Avoid_: comparison runner, update script
+
+**Workspace drift check**:
+A pre-apply verification that workspace file contents match the hashes observed during dry-run inspection, preventing concurrent file edits from being silently overwritten.
+_Avoid_: sync check, optimistic locking
+
 **Deletion escalation**:
 A required, separate explicit confirmation for a renderer-owned managed file that is absent from a new render. Its presence blocks the ordinary update flow.
 _Avoid_: ordinary update deletion, implicit removal
