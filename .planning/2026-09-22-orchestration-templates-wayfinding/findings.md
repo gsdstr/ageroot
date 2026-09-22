@@ -52,6 +52,7 @@
 | Portable package policy | Use an exact self-contained copy: `templates/orchestration/v1/` is canonical source and `.agents/orchestration/` is its portable distribution. |
 | Synchronization policy | `--check` is read-only drift detection; explicit `--write` mirrors canonical source to portable distribution. |
 | Portable distribution implementation | `scripts/sync-orchestration-package.py` mirrors an allowlist and preserves unexpected target files as drift; portable validator passes from `ageroot_template/.agents/orchestration/`. |
+| Orca adapter direction | Adapter is portable and opt-in; maps neutral lifecycle to Orca supervised execution while neutral templates retain policy authority. |
 
 ## Issues Encountered
 | Issue | Resolution |

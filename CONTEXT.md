@@ -117,6 +117,45 @@ A maintainer-driven source-to-distribution mirror with a non-mutating
 the copy. Synchronization is never an implicit side effect of editing source.
 _Avoid_: automatic overwrite, install-time generation
 
+**Orca orchestration adapter**:
+A portable, opt-in adapter that maps a neutral orchestration lifecycle into
+Orca Run, Task, Dispatch, worktree, and completion operations. Neutral
+templates remain the policy source; Orca supplies supervised execution state.
+_Avoid_: replacement lifecycle, implicit Orca mode
+
+**Orca decision task**:
+A coordinator-owned Orca Task representing one neutral human gate. It blocks
+dependent tasks until the Owner's structured reply is recorded; Coordinator
+then applies that decision to the DAG.
+_Avoid_: manual status change, out-of-band approval
+
+**Orca implementation worktree**:
+The one Orca worktree assigned to an implementation task. Overlapping Builder
+writes are serial; parallel write work needs separate child worktrees after
+Coordinator path-ownership validation. Reviewer is read-only and branches are
+never automatically deleted at final acceptance.
+_Avoid_: per-role worktree, automatic branch cleanup
+
+**Orca adapter test modes**:
+The adapter defaults to `--dry-run`, which validates and prints the planned
+Orca mapping without calls. Explicit `--apply` creates only Run/Task state;
+explicit `--execute` permits worktree and Dispatch operations after Owner Start
+approval.
+_Avoid_: implicit apply, background daemon
+
+**Orca adapter audit trail**:
+Portable mapping and decision evidence stored under
+`.planning/<plan-id>/orca/`, including `run-map.json` and decision packets.
+Orca Run/Task state remains the operational control plane.
+_Avoid_: Orca-only history, Markdown-only status
+
+**Orca adapter acceptance scenario**:
+A disposable full four-phase lifecycle tested first in `--dry-run` and then
+with explicit `--apply` creating only Run/Task/DAG state. Dispatch and
+worktree creation require a later explicit `--execute` after Owner Start
+approval.
+_Avoid_: production first run, implicit agent dispatch
+
 **Phase template**:
 A neutral, reusable specification defining participating roles, entry/exit
 criteria, handoff artifacts, internal workflow, budget allocation, and
