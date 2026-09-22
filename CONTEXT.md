@@ -2,7 +2,141 @@
 
 Ageroot renders and updates a portable agent-infrastructure stack in a project. This context names its update safety concepts and project-memory responsibilities.
 
+It also defines the portable orchestration vocabulary used by the neutral
+orchestration-template specification.
+
 ## Language
+
+**Owner**:
+The human who owns a task's objective, budget authority, mandatory gates, and
+final acceptance.
+_Avoid_: sponsor, product owner, requester, approver
+
+**Coordinator**:
+The agent role that directs the task lifecycle, maintains its plan,
+dependencies, limits, and escalations; it does not acquire the Owner's
+authority.
+_Avoid_: manager, supervisor
+
+**Researcher**:
+The agent role that gathers and evaluates evidence, constraints, and options
+for a decision.
+_Avoid_: investigator
+
+**Author**:
+The agent role that produces non-executable task artifacts, including briefs,
+plans, specifications, reports, changelogs, and user-facing documentation.
+_Avoid_: planner, documenter
+
+**Builder**:
+The agent role that produces executable or operational task artifacts,
+including code, configuration, migrations, and infrastructure changes.
+_Avoid_: implementer
+
+**Reviewer**:
+The agent role that independently evaluates an artifact against requirements,
+evidence, risks, and acceptance criteria.
+_Avoid_: approver
+
+**Integrator**:
+The agent role that composes accepted artifacts, records handoffs and outcomes,
+and prepares the result for Owner acceptance.
+_Avoid_: release manager
+
+**Orchestration budget**:
+The planned and observed resource envelope for one orchestration run, expressed
+as iteration count, agent turns, model-capability units, and optionally
+wall-clock time.
+_Avoid_: price limit, token limit
+
+**Model-capability unit**:
+A configurable model-usage unit. It may represent actual token-based provider
+cost where usage pricing is available, or a weighted capability proxy where a
+subscription does not expose a monetary cost.
+_Avoid_: fixed price, token count
+
+**Capability profile**:
+A named, provider-agnostic classification of model strengths (`fast`,
+`coding`, `reasoning`, `review`) used by role definitions instead of concrete
+model identifiers.
+_Avoid_: model tier, model tag
+
+**Model inventory**:
+A replaceable local registry mapping capability profiles and roles to concrete
+subscription or provider models, invocation surfaces, context limits, and
+fallback paths.
+_Avoid_: model catalog, model list
+
+**Budget warning**:
+A Coordinator report raised when any finite orchestration-budget dimension
+reaches 80% of its planned limit. Work continues while the Owner receives
+plan-versus-actual data, a completion forecast, and a cost-reduction option.
+_Avoid_: soft stop, approval gate
+
+**Budget hard gate**:
+A mandatory Owner decision raised when any finite orchestration-budget
+dimension reaches 100% of its planned limit. No new work iteration or task may
+start until the Owner re-baselines the limit, reduces scope, or stops work.
+_Avoid_: automatic reset, silent overrun
+
+**Iteration**:
+One role attempt to create or materially revise its output in response to
+feedback, review, or new evidence. A repeated tool call using the same
+strategy is not an iteration; a new approach or artifact version is.
+_Avoid_: agent turn, tool retry
+
+**Iteration limit**:
+A two-level limit: a run-level allowance plus per-role/per-output limits. The
+v1 default is three iterations for one role output and three Builder–Reviewer
+rework cycles; the Owner may override either in the plan.
+_Avoid_: unlimited polishing, retry cap
+
+**Human gate**:
+A paused decision point that requires an Owner choice before the affected task
+branch can continue. The Coordinator supplies a decision packet containing
+context, options, recommendation, and scope/budget/risk impact; independent
+branches may continue within their own limits.
+_Avoid_: notification, automatic approval
+
+**Decision packet**:
+The structured information sent by the Coordinator to an Owner at a human
+gate: context, viable options, recommendation, and projected scope, budget,
+and risk impact.
+_Avoid_: alert, status update
+
+**Portable orchestration package**:
+A self-contained, exact distribution copy of the canonical
+`templates/orchestration/v1/` source under a consumer's
+`.agents/orchestration/`. It contains templates, manifest, lifecycle map,
+schemas, and validation support; it is neither a source link nor a runtime.
+_Avoid_: runtime adapter, source reference, generated install artifact
+
+**Portable package synchronization**:
+A maintainer-driven source-to-distribution mirror with a non-mutating
+`--check` mode that reports drift and an explicit `--write` mode that applies
+the copy. Synchronization is never an implicit side effect of editing source.
+_Avoid_: automatic overwrite, install-time generation
+
+**Phase template**:
+A neutral, reusable specification defining participating roles, entry/exit
+criteria, handoff artifacts, internal workflow, budget allocation, and
+escalation gates for one lifecycle stage.
+_Avoid_: step definition, workflow script
+
+**Lifecycle composition map**:
+A declarative specification wiring phase templates into an end-to-end task
+lifecycle with mandatory Owner human gates and explicit rework loopback rules.
+_Avoid_: orchestrator pipeline, workflow graph
+
+**Handoff artifact**:
+A typed contract document exchanged across phase boundaries, specifying
+required sections, schema assertions, producing role, and consuming role.
+_Avoid_: intermediate output, phase dump
+
+**Change request**:
+A structured request produced during implementation or integration describing
+a discovered deficit, impacted artifacts, and proposed upstream revision.
+_Avoid_: bug ticket, rework note
 
 **Safety-first dry-run comparison**:
 A strategy-aware pre-apply assessment that distinguishes intended generated changes from local modifications and conflicts before any update can be applied.
