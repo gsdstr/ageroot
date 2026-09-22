@@ -52,7 +52,10 @@ Every human gate receives a structured Decision Packet:
 
 ## Lifecycle Composition & Phase Templates
 
-Templates are distributed in `ageroot_template/.agents/orchestration/` (and repo-level `templates/orchestration/v1/`).
+The development source is `templates/orchestration/v1/`. A portable template
+distribution lives at `.agents/orchestration/` and must contain the same
+`manifest.yaml`, four `phases/*.md`, `lifecycle-map.md`, and `schemas/`
+contracts. A runtime adapter is not implied.
 
 ```
 01-intake  ──[Start Gate]──>  02-research-planning  ──[Plan-to-Build Gate]──>  03-implementation  ──>  04-review-integration  ──[Final Acceptance Gate]──>  Done
@@ -95,3 +98,20 @@ Templates are distributed in `ageroot_template/.agents/orchestration/` (and repo
 2. **Conflict Arbitration**:
    - A Reviewer objection blocks progress. Builder iterates up to 3 cycles.
    - If agreement cannot be reached after 3 cycles, Coordinator halts the branch, compiles the Reviewer objection and Builder rationale, and escalates to the Owner. Coordinator never overrides a Reviewer.
+
+## Fallback Policy
+
+- **Intra-subscription**: a role may use its configured fallback on the same
+  subscription automatically when quota or availability requires it.
+- **Cross-subscription**: Coordinator pauses the affected branch and sends an
+  Owner Decision Packet before moving between Antigravity and Codex.
+- **Tier 3**: Hermes and Pi are metered emergency surfaces. Coordinator must
+  obtain Owner approval before invoking either one.
+
+## Static Contract
+
+The package validates without a runtime. Each phase must declare the seven
+frontmatter fields (`metadata`, `participating_roles`, `entry_criteria`,
+`exit_criteria`, `handoff_artifacts`, `budget_slice`, `escalation_gates`).
+Handoffs must name producer, consumer, phase edge, and artifact schema; their
+budget slices must remain within the standard profile.

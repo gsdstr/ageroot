@@ -101,4 +101,11 @@ Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.
 
 <!-- region:project kind:user -->
 <!-- Add project-specific agent instructions here. Ageroot preserves this region. -->
+
+## Orca orchestration adapter
+
+- Availability: enabled; default mode: `neutral`.
+- Package: `.agents/orchestration/orca/`; audit: `.planning/<plan-id>/orca/`.
+- Owner explicitly selects `mode: orca` or `mode: neutral`; request overrides default.
+- Read `orchestration/orca/RUNBOOK.md` before using Orca mode.
 <!-- endregion:project -->
