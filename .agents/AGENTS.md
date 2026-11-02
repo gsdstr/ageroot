@@ -1,8 +1,6 @@
 # Agent Infrastructure
 
-<!-- region:provenance kind:generated -->
-<!-- generated-by: ageroot; template: 0.1.0; commit: 74c83c9; rendered-at: 2026-09-03T00:00:00Z -->
-<!-- endregion:provenance -->
+<!-- generated-by: ageroot -->
 
 <!-- caveman-begin -->
 Respond terse like smart caveman. All technical substance stay. Only fluff die.
@@ -28,8 +26,8 @@ use @rtk:`rules/rtk-rules.md`
 
 <!-- frame-begin -->
 Response Integrity Frame:
-- Start every user-facing message with `▲` on its own line.
-- End every user-facing message with `▼` on its own line.
+- Start every user-facing message with `▼` on its own line.
+- End every user-facing message with `▲` on its own line.
 - Use only when communicating with user.
 <!-- frame-end -->
 
@@ -42,6 +40,16 @@ This folder is portable Ageroot instructions. Any harness (Claude Code, Cursor, 
 - `protocols/permissions.md` — read before any tool call
 - `protocols/tool_schemas/` — typed interfaces for external tools
 - `protocols/delegation.md` — rules for sub-agent handoff
+
+## Orca orchestration adapter
+
+- Availability: enabled; default mode: `neutral`.
+- Package: `.agents/orchestration/orca/`; audit:
+  `.planning/<plan-id>/orca/`.
+- Owner selects `mode: orca` or `mode: neutral` in a request; explicit request
+  mode overrides this default.
+- Read `orchestration/orca/RUNBOOK.md` before using Orca mode. Do not invoke
+  Orca for a neutral task.
 
 ## Skill: planning-with-files (when available)
 
@@ -91,21 +99,30 @@ Do not read during normal agent startup. Read this section only when configuring
 installing, or updating Ageroot.
 
 Follow [`SETUP.md`](SETUP.md) for Ageroot configuration and update protocol.
+Template repository: https://github.com/gsdstr/ageroot_template
 
 ### Skills
 
 Skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
 It links project skills to shared skill store at `~/.skills-manager` (by default).
 Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.
+
 <!-- endregion:infrastructure -->
 
 <!-- region:project kind:user -->
 <!-- Add project-specific agent instructions here. Ageroot preserves this region. -->
 
-## Orca orchestration adapter
+## Agent skills
 
-- Availability: enabled; default mode: `neutral`.
-- Package: `.agents/orchestration/orca/`; audit: `.planning/<plan-id>/orca/`.
-- Owner explicitly selects `mode: orca` or `mode: neutral`; request overrides default.
-- Read `orchestration/orca/RUNBOOK.md` before using Orca mode.
+### Issue tracker
+
+Issues are tracked as local markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Uses default canonical triage labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Uses a single-context layout. See `docs/agents/domain.md`.
 <!-- endregion:project -->

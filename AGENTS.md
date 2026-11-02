@@ -1,6 +1,7 @@
 # AGENTS.md — Adapter for Ageroot
 
-Reads `AGENTS.md` before doing any work. This file points it at
+<!-- region:adapter kind:generated -->
+Reads `.agents/AGENTS.md` before doing any work. This file points it at
 the portable brain in `.agents/`.
 
 ## Startup
@@ -9,21 +10,14 @@ Read `.agents/AGENTS.md` before doing any work.
 ## Hard rules
 - No force push to `main`, `production`, `staging`.
 
-## Managed `.agents/AGENTS.md`
+## Managed regions
 
-`.agents/AGENTS.md` uses `managed-regions`. Keep its markers intact and add
-project-specific instructions only in its `project` user region.
+This file uses the `managed-regions` update strategy.
 
-## Agent skills
-
-### Issue tracker
-
-Issues are tracked as local markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Uses default canonical triage labels. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Uses a single-context layout. See `docs/agents/domain.md`.
+- Keep every Ageroot region marker intact, paired, and unnested.
+- Ageroot replaces `generated` regions during an approved update.
+- Put project-specific instructions only in the `project` user region. Ageroot
+  preserves that region across updates.
+- A malformed marker structure blocks the update instead of guessing how to
+  merge the file.
+<!-- endregion:adapter -->
