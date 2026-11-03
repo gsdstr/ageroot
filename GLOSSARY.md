@@ -289,6 +289,10 @@ _Avoid_: skill bundle, plugin archive
 The declarative project configuration file (`apm.yml`) defining required agent packages, version constraints, and deployment targets.
 _Avoid_: package config, skill manifest
 
+**Ageroot management skill**:
+The first-party agent skill (`skills/ageroot`) responsible for installing, configuring, verifying, and updating the Ageroot stack and synchronizing APM packages.
+_Avoid_: setup script, update runner, install guide
+
 **Skill materialization**:
 The automated deployment and layout of resolved agent skills into the authoritative `.agents/skills/` target directory.
 _Avoid_: skill copying, manual linking

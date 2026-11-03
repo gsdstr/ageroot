@@ -5,7 +5,7 @@ Unified monorepo for Ageroot portable agent infrastructure.
 ## Contents
 
 - `packages/ageroot_core/` — core engine: safety-first Update engine and reproducible Distribution module.
-- `skills/` — first-party skills (`memory-manager`, `memory-maintenance`) and their lifecycle test suites.
+- `skills/` — first-party skills (`ageroot`, `memory-manager`, `memory-maintenance`) and their lifecycle test suites.
 - `templates/` — canonical templates: base instructions (`templates/core/`), neutral portable orchestration package (`templates/orchestration/v1/`), and Orca adapter (`templates/orchestration/orca/`).
 - `docs/` — architectural decisions (ADRs) and migration provenance (`docs/PROVENANCE.md`).
 - `scripts/` — consolidated test suite runner (`scripts/test.sh`) and sync tooling.

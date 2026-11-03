@@ -16,10 +16,6 @@ managed_files:
     strategy: managed-regions
   - path: .agents/PREFERENCES.md
     strategy: generated
-  - path: .agents/SETUP.md
-    strategy: generated
-  - path: .agents/SKILLS.md
-    strategy: generated
   - path: .agents/rules/rtk-rules.md
     strategy: generated
   - path: .agents/protocols/delegation.md

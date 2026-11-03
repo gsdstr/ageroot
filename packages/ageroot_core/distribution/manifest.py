@@ -44,16 +44,6 @@ def get_default_components() -> Dict[str, DistributionComponent]:
                     strategy="managed-regions",
                 ),
                 MappingRule(
-                    source_prefix="templates/core/.agents/SETUP.md",
-                    target_prefix=".agents/SETUP.md",
-                    strategy="generated",
-                ),
-                MappingRule(
-                    source_prefix="templates/core/.agents/SKILLS.md",
-                    target_prefix=".agents/SKILLS.md",
-                    strategy="generated",
-                ),
-                MappingRule(
                     source_prefix="templates/core/.agents/PREFERENCES.md",
                     target_prefix=".agents/PREFERENCES.md",
                     strategy="generated",

@@ -5,6 +5,7 @@ targets:
 dependencies:
   apm:
     # First-party monorepo skills (local dev)
+    - ./skills/ageroot
     - ./skills/memory-manager
     - ./skills/memory-maintenance
     # Core & workflow skills

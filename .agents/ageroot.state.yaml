@@ -7,14 +7,6 @@ template:
 installed_at: '2026-09-03T00:00:00Z'
 rendered_at: '2026-11-02T07:28:01Z'
 managed_files:
-  - path: .agents/SETUP.md
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/SETUP.md
-    sha256: 8696fd96fee3e66ab59286adb5a709e1fb3c6348dbf148969e67a0d7ff2ed89d
-  - path: .agents/SKILLS.md
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/SKILLS.md
-    sha256: 27c7deb2a537c419e2146b2c110d6d7d110e3da3533735a53842e1c7dd83880b
   - path: .agents/PREFERENCES.md
     strategy: generated
     snapshot: .agents/snapshots/.agents/PREFERENCES.md

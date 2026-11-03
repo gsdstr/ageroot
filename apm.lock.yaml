@@ -1,6 +1,24 @@
 lockfile_version: '1'
 apm_version: 0.35.0
 dependencies:
+- repo_url: _local/ageroot
+  name: ageroot
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/ageroot
+  - .agents/skills/ageroot/SKILL.md
+  - .agents/skills/ageroot/references/SETUP.md
+  - .agents/skills/ageroot/references/SKILLS.md
+  - .agents/skills/ageroot/scripts/ageroot.py
+  deployed_file_hashes:
+    .agents/skills/ageroot/SKILL.md: sha256:c4cd9ebabc4467ce28951daf9f8587147cce9bd12be3088bbba7aeb5f33238a8
+    .agents/skills/ageroot/references/SETUP.md: sha256:f3fbb159405f989907d17e2b38ce8eb7f5fef3390c6caf7fef413bdba35f0adf
+    .agents/skills/ageroot/references/SKILLS.md: sha256:47182504df43750483086aad808baa097d50e7386ba53f5025e99e4f6d43927b
+    .agents/skills/ageroot/scripts/ageroot.py: sha256:960de387e1af4be60d63fae4765399adc4abaae2eac7b9e72d5ef6a1d99f1016
+  source: local
+  local_path: ./skills/ageroot
+  content_hash: sha256:cc68d269b75abb702d85d84338c2179e57348b88ff61df47a948d08a0f34cebd
 - repo_url: _local/memory-maintenance
   name: memory-maintenance
   version: unknown
@@ -455,6 +473,51 @@ dependencies:
   content_hash: sha256:8be9238f5415f83d2011eabf7809f4dca6ad93d2ad767aeb445fe907cace1ab7
   declared_license: MIT
 deployments:
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/ageroot
+  runtime: null
+  scope: project
+  owners:
+  - ./skills/ageroot
+  active_owner: ./skills/ageroot
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/ageroot/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./skills/ageroot
+  active_owner: ./skills/ageroot
+  content_hash: sha256:c4cd9ebabc4467ce28951daf9f8587147cce9bd12be3088bbba7aeb5f33238a8
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/ageroot/references/SETUP.md
+  runtime: null
+  scope: project
+  owners:
+  - ./skills/ageroot
+  active_owner: ./skills/ageroot
+  content_hash: sha256:f3fbb159405f989907d17e2b38ce8eb7f5fef3390c6caf7fef413bdba35f0adf
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/ageroot/references/SKILLS.md
+  runtime: null
+  scope: project
+  owners:
+  - ./skills/ageroot
+  active_owner: ./skills/ageroot
+  content_hash: sha256:47182504df43750483086aad808baa097d50e7386ba53f5025e99e4f6d43927b
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/ageroot/scripts/ageroot.py
+  runtime: null
+  scope: project
+  owners:
+  - ./skills/ageroot
+  active_owner: ./skills/ageroot
+  content_hash: sha256:960de387e1af4be60d63fae4765399adc4abaae2eac7b9e72d5ef6a1d99f1016
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/ask-matt

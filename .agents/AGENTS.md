@@ -93,19 +93,11 @@ are absent.
   and FTS index rebuilds are run via explicit command `memory_maintenance.py`.
   Do not run maintenance automatically during normal task execution or session-end.
 
-## Installation and updates
+## Skill: ageroot (when available)
 
-Do not read during normal agent startup. Read this section only when configuring,
-installing, or updating Ageroot.
-
-Follow [`SETUP.md`](SETUP.md) for Ageroot configuration and update protocol.
-Template repository: https://github.com/gsdstr/ageroot
-
-### Skills
-
-Skills are managed with [APM (Agent Package Manager)](https://github.com/microsoft/apm).
-Dependencies and content hashes are locked in `apm.yml` and `apm.lock.yaml`, targeting `.agents/skills/`.
-Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.
+When configuring, verifying, dry-running, or updating the Ageroot stack, use the
+`ageroot` skill (`skills/ageroot`). Do not load setup or update procedures during
+normal task work.
 
 <!-- endregion:infrastructure -->
 

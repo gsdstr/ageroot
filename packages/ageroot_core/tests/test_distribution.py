@@ -55,11 +55,11 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertTrue(state_file.exists())
 
         # Modify a file -> drift detected
-        target_file = export_dir / ".agents" / "SETUP.md"
+        target_file = export_dir / ".agents" / "PREFERENCES.md"
         target_file.write_text("TAMPERED", encoding="utf-8")
         clean, drift = service.check_drift(target_dir=export_dir)
         self.assertFalse(clean)
-        self.assertTrue(any("modified: .agents/SETUP.md" in d for d in drift))
+        self.assertTrue(any("modified: .agents/PREFERENCES.md" in d for d in drift))
 
         # Add unexpected file in managed prefix -> drift detected
         unexpected = export_dir / ".agents" / "protocols" / "unexpected.txt"
