@@ -613,6 +613,31 @@ class TestAgerootUpdateEngine(unittest.TestCase):
         outcome_override = self.engine.apply(report_override)
         self.assertTrue(outcome_override.success)
 
+    def test_snapshot_self_healing_missing_on_clone(self):
+        rel_path = ".agents/AGENTS.md"
+        base_text = "# Baseline\n"
+        target = self.root / rel_path
+        target.write_text(base_text, encoding="utf-8")
+        expected_sha = SnapshotStore.compute_sha256(base_text)
+
+        # Record state as if from git clone with no snapshots on disk
+        state = SimpleYamlHelper.parse(self.state_path.read_text(encoding="utf-8"))
+        state["managed_files"] = [
+            {"path": rel_path, "strategy": "generated", "snapshot": f".agents/snapshots/{rel_path}", "sha256": expected_sha}
+        ]
+        self.state_path.write_text(SimpleYamlHelper.dump(state), encoding="utf-8")
+
+        # Snapshot file does NOT exist
+        snap_file = self.engine.snapshot_store.get_snapshot_path(rel_path)
+        self.assertFalse(snap_file.exists())
+
+        # Dry run should self-heal snapshot because workspace matches sha256
+        report = self.engine.dry_run({rel_path: "# New Render\n"})
+        self.assertEqual(report[rel_path].result_class, ResultClass.CHANGED)
+        self.assertTrue(report.is_eligible)
+        self.assertTrue(snap_file.exists())
+        self.assertEqual(snap_file.read_text(encoding="utf-8"), base_text)
+
     def test_external_link_validation_and_persistence(self):
         rel_link = ".agents/skills/planning"
         target_dir = self.root / ".skills-manager" / "planning"

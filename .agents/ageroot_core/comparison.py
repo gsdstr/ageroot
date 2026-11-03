@@ -24,7 +24,7 @@ import os
 from pathlib import Path
 import re
 import shutil
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 
 class ResultClass(str, Enum):
@@ -428,6 +428,44 @@ class SnapshotStore:
         snapshot_file.parent.mkdir(parents=True, exist_ok=True)
         snapshot_file.write_text(content, encoding="utf-8")
         return self.compute_sha256(content)
+
+    def sync_from_workspace(
+        self,
+        managed_files: List[Dict[str, Any]],
+        normalizer: Optional[Any] = None,
+    ) -> Tuple[List[str], List[str]]:
+        """Reconstructs missing snapshots from workspace files when SHA-256 matches state.
+        
+        Returns:
+            (reconstructed_paths, skipped_or_mismatched_paths)
+        """
+        reconstructed: List[str] = []
+        skipped: List[str] = []
+
+        for entry in managed_files:
+            rel_path = entry.get("path")
+            expected_sha = entry.get("sha256")
+            if not rel_path or not expected_sha:
+                continue
+
+            snap_file = self.get_snapshot_path(rel_path)
+            if snap_file.exists():
+                continue
+
+            target_file = self.root_dir / rel_path
+            if not target_file.exists() or not target_file.is_file():
+                skipped.append(rel_path)
+                continue
+
+            raw_text = target_file.read_text(encoding="utf-8")
+            norm_text = DeterministicNormalizer.normalize_text(raw_text)
+            if self.compute_sha256(norm_text) == expected_sha:
+                self.write_snapshot_atomic(rel_path, norm_text)
+                reconstructed.append(rel_path)
+            else:
+                skipped.append(rel_path)
+
+        return reconstructed, skipped
 
 
 @dataclass
@@ -848,6 +886,15 @@ class ThreeWayComparisonEngine:
         baseline_content, snap_err = self.snapshot_store.read_snapshot(
             relative_path, state_entry.get("sha256")
         )
+        if snap_err == "missing" and current_exists:
+            # Self-healing: if snapshot file is absent from disk (e.g. after fresh git clone),
+            # check if workspace file matches recorded state sha256.
+            expected_sha = state_entry.get("sha256")
+            if expected_sha and self.snapshot_store.compute_sha256(norm_current) == expected_sha:
+                self.snapshot_store.write_snapshot_atomic(relative_path, norm_current)
+                baseline_content = norm_current
+                snap_err = None
+
         if snap_err:
             return ComparisonResult(
                 path=relative_path,

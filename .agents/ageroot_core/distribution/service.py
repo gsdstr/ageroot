@@ -78,6 +78,8 @@ class DistributionService:
                             merge_res = ManagedRegionParser.merge(actual_content, expected_content)
                             if merge_res.result_class in (ResultClass.UNCHANGED, ResultClass.REGION_MERGE):
                                 continue
+                        if rel_path == ".agents/PREFERENCES.md":
+                            continue
                         drift.append(f"modified: {rel_path}")
                 except Exception as ex:
                     drift.append(f"read-error: {rel_path} ({ex})")

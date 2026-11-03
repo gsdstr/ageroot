@@ -82,15 +82,15 @@ continuity across tasks. Keep project memory functional even when memory skills
 are absent.
 
 - **Startup / intent**: Before substantial work, retrieve relevant memory guidance
-  using `memory_manager.py recall "<intent>"` or `search "<query>"`. Read project
+  using `python3 .agents/skills/memory-manager/scripts/memory_manager.py recall "<intent>"` or `search "<query>"`. Read project
   preferences from `.agents/PREFERENCES.md`.
 - **Episodic recording**: After significant operations or unexpected failures, log
-  an event with `memory_reflect.py` to record outcome and context.
-- **Review workflow**: Inspect staged candidates using `memory_manager.py list`.
+  an event with `python3 .agents/skills/memory-manager/scripts/memory_reflect.py` to record outcome and context.
+- **Review workflow**: Inspect staged candidates using `python3 .agents/skills/memory-manager/scripts/memory_manager.py list`.
   Accepting or rejecting candidates is an explicit human or agent review action
   with mandatory reviewer and rationale/reason; candidates are never auto-accepted.
 - **Maintenance**: Offline memory clustering, decay/archiving, review queue updates,
-  and FTS index rebuilds are run via explicit command `memory_maintenance.py`.
+  and FTS index rebuilds are run via explicit command `python3 .agents/skills/memory-maintenance/scripts/memory_maintenance.py`.
   Do not run maintenance automatically during normal task execution or session-end.
 
 ## Skill: ageroot (when available)
