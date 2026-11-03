@@ -1337,8 +1337,22 @@ class AgerootUpdateEngine:
 
             # Phase 1: Stage and verify SHA-256
             for r in report.results.values():
-                if r.excluded or r.result_class == ResultClass.UNCHANGED:
+                if r.excluded:
                     skipped_paths.append(r.path)
+                    continue
+
+                if r.result_class == ResultClass.UNCHANGED:
+                    skipped_paths.append(r.path)
+                    if self.snapshots_enabled and r.new_snapshot_content is not None:
+                        clean_rel = self._normalize_rel_path(r.path)
+                        staged_snap_file = stage_snapshots / clean_rel
+                        staged_snap_file.parent.mkdir(parents=True, exist_ok=True)
+                        snap_content = r.new_snapshot_content
+                        staged_snap_file.write_text(snap_content, encoding="utf-8")
+                        snap_sha = hashlib.sha256(staged_snap_file.read_bytes()).hexdigest()
+                        expected_snap_sha = r.new_snapshot_sha256 or hashlib.sha256(snap_content.encode("utf-8")).hexdigest()
+                        if snap_sha != expected_snap_sha:
+                            raise RuntimeError(f"Staged snapshot SHA-256 verification failed for '{r.path}'")
                     continue
 
                 if r.result_class in (ResultClass.CHANGED, ResultClass.UNVERIFIED, ResultClass.REGION_MERGE):
