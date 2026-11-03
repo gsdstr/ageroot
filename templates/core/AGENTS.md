@@ -21,3 +21,6 @@ This file uses the `managed-regions` update strategy.
 - A malformed marker structure blocks the update instead of guessing how to
   merge the file.
 <!-- endregion:adapter -->
+
+<!-- region:project kind:user -->
+<!-- endregion:project -->
