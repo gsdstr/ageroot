@@ -69,11 +69,13 @@ class DistributionService:
             else:
                 try:
                     actual_content = dest_file.read_text(encoding="utf-8")
-                    if actual_content != expected_content:
-                        # Allow region merge check for managed-regions files
-                        if rel_path == "AGENTS.md" or rel_path == ".agents/AGENTS.md":
-                            # Check whether user edits are within user regions
-                            pass
+                    norm_actual = DeterministicNormalizer.normalize_text(actual_content)
+                    norm_expected = DeterministicNormalizer.normalize_text(expected_content)
+                    if norm_actual != norm_expected:
+                        if ManagedRegionParser.has_region_markers(expected_content):
+                            merge_res = ManagedRegionParser.merge(actual_content, expected_content)
+                            if merge_res.result_class in (ResultClass.UNCHANGED, ResultClass.REGION_MERGE):
+                                continue
                         drift.append(f"modified: {rel_path}")
                 except Exception as ex:
                     drift.append(f"read-error: {rel_path} ({ex})")
