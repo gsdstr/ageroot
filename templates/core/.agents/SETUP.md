@@ -115,8 +115,8 @@ Never apply an update before explicit confirmation.
 changes appear in the dry-run diff and require user confirmation before applying
 an update.
 
-Skills are `external-link`: [skills-manager](https://github.com/xingkongliang/skills-manager)
-manages project symlinks to `~/.skills-manager`.
+Skills are managed by [APM (Agent Package Manager)](https://github.com/microsoft/apm):
+`apm install` materializes declared skills into `.agents/skills/` using the `agent-skills` target.
 
 ## Generated Markdown marker
 

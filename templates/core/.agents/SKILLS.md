@@ -2,17 +2,33 @@
 
 <!-- generated-by: ageroot; template: <template-version>; commit: <short-git-commit>; rendered-at: <ISO-8601 timestamp> -->
 
-Project skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
-It creates symlinks from this project to shared skill store at `~/.skills-manager`.
+Project skills are managed with [APM (Agent Package Manager)](https://github.com/microsoft/apm).
+Dependencies and exact content hashes are tracked in `apm.yml` and `apm.lock.yaml`, deploying directly to `.agents/skills/` via the `agent-skills` target.
+
+## Prerequisites
+
+Install APM before managing skills:
+
+```bash
+# macOS via Homebrew
+brew install apm
+
+# Unix standalone installer
+curl -sSL https://aka.ms/apm-unix | sh
+```
+
+Verify installation:
+```bash
+apm --version
+```
 
 ## Operating rules
 
-- Use `skills-manager` to install, update, and remove project skills.
-- Do not copy skill directories into this repository or edit linked skill contents here.
+- Use `apm install`, `apm add`, and `apm remove` to manage project skills.
+- Do not manually edit files inside `.agents/skills/`; manage them via `apm.yml`.
+- Keep `apm.lock.yaml` tracked in Git for byte-for-byte reproducibility; keep `apm_modules/` and `.agents/skills/` ignored.
 - Read this file only when configuring or updating skills; it is not required at normal agent startup.
 - Keep this list aligned with project needs. Categorization is policy, not an installed-state report.
-- Required skills may be installed globally. A project symlink is needed only when
-  the project must pin or otherwise manage that skill locally.
 
 ## Required
 

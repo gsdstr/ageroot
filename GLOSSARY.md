@@ -280,3 +280,15 @@ _Avoid_: memory workflow, automatic knowledge acceptance
 **Project preferences**:
 User-authored conventions for a specific project, distinct from experiences and knowledge accumulated by agents. They have one authoritative record and are referenced by the agent instructions.
 _Avoid_: personal memory, learned preferences
+
+**Agent package**:
+A versioned, content-hashed distribution unit containing agent primitives such as skills, instructions, prompts, or tool definitions.
+_Avoid_: skill bundle, plugin archive
+
+**APM manifest**:
+The declarative project configuration file (`apm.yml`) defining required agent packages, version constraints, and deployment targets.
+_Avoid_: package config, skill manifest
+
+**Skill materialization**:
+The automated deployment and layout of resolved agent skills into the authoritative `.agents/skills/` target directory.
+_Avoid_: skill copying, manual linking

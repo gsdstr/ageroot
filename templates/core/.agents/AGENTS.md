@@ -103,8 +103,8 @@ Template repository: https://github.com/gsdstr/ageroot_template
 
 ### Skills
 
-Skills are managed with [skills-manager](https://github.com/xingkongliang/skills-manager).
-It links project skills to shared skill store at `~/.skills-manager` (by default).
+Skills are managed with [APM (Agent Package Manager)](https://github.com/microsoft/apm).
+Dependencies and content hashes are locked in `apm.yml` and `apm.lock.yaml`, targeting `.agents/skills/`.
 Follow [`SKILLS.md`](SKILLS.md) when configuring or updating skills.
 
 <!-- endregion:infrastructure -->

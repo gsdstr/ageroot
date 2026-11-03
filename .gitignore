@@ -5,8 +5,10 @@
 .DS_Store
 
 .agents/snapshots/
+.agents/skills/
 
 node_modules/
+apm_modules/
 
 __pycache__/
 *.pyc

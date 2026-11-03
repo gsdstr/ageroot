@@ -1,0 +1,16 @@
+name: ageroot
+version: 0.1.0
+targets:
+  - agent-skills
+dependencies:
+  apm:
+    # First-party monorepo skills (local dev)
+    - ./skills/memory-manager
+    - ./skills/memory-maintenance
+    # Core & workflow skills
+    - JuliusBrussee/caveman/skills/caveman
+    - JuliusBrussee/caveman/skills/caveman-commit
+    - JuliusBrussee/caveman/skills/caveman-explore
+    - JuliusBrussee/caveman/skills/caveman-review
+    - OthmanAdi/planning-with-files
+    - mattpocock/skills
