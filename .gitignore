@@ -1,9 +1,6 @@
 # Project-local state; create it in each consuming project.
 #/.planning/
 
-/ageroot_skills/
-/ageroot_template/
-
 # Common local artifacts.
 .DS_Store
 
@@ -11,4 +8,5 @@
 
 node_modules/
 
-__pycache__
+__pycache__/
+*.pyc
