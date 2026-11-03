@@ -22,7 +22,11 @@ managed_files:
     strategy: generated
   - path: .agents/rules/rtk-rules.md
     strategy: generated
-  - path: .agents/protocols/
+  - path: .agents/protocols/delegation.md
     strategy: generated
-  - path: .agents/skills/
-    strategy: external-link
+  - path: .agents/protocols/orchestration.md
+    strategy: generated
+  - path: .agents/protocols/permissions.md
+    strategy: generated
+  - path: .agents/protocols/hook_patterns.json
+    strategy: generated

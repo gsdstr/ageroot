@@ -44,18 +44,20 @@ group. Do not place installation state or generated-file hashes here.
 schema: 1
 template:
   name: ageroot
-  version: <template-version>
-  source: <template-source>
+  version: 0.1.0
+  source: canonical
   commit: <short-git-commit>
 installed_at: <ISO-8601 timestamp>
 rendered_at: <ISO-8601 timestamp>
 managed_files:
-  - path: .agents/AGENTS.md
-    strategy: generated
+  - path: AGENTS.md
+    strategy: managed-regions
     snapshot: .agents/snapshots/AGENTS.md
     sha256: <sha256-hex>
-  - path: .agents/skills/
-    strategy: external-link
+  - path: .agents/AGENTS.md
+    strategy: managed-regions
+    snapshot: .agents/snapshots/.agents/AGENTS.md
+    sha256: <sha256-hex>
 ```
 
 - `schema` — state format version.

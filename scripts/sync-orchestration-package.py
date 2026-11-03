@@ -10,10 +10,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOT = REPO_ROOT / "templates" / "orchestration" / "v1"
-DEFAULT_TARGET = REPO_ROOT / "ageroot_template" / ".agents" / "orchestration"
+ORCA_SOURCE = REPO_ROOT / "templates" / "orchestration" / "orca"
+DEFAULT_TARGET = REPO_ROOT / ".agents" / "orchestration"
 
 
-def source_files(source_root: Path) -> dict[Path, bytes]:
+def source_files(source_root: Path, include_orca: bool = True) -> dict[Path, bytes]:
     files = [
         source_root / "manifest.yaml",
         source_root / "README.md",
@@ -22,7 +23,12 @@ def source_files(source_root: Path) -> dict[Path, bytes]:
     ]
     files.extend(sorted((source_root / "phases").glob("*.md")))
     files.extend(sorted((source_root / "schemas").glob("*.json")))
-    return {path.relative_to(source_root): path.read_bytes() for path in files}
+    result = {path.relative_to(source_root): path.read_bytes() for path in files}
+    if include_orca and ORCA_SOURCE.exists():
+        for path in sorted(ORCA_SOURCE.rglob("*")):
+            if path.is_file():
+                result[Path("orca") / path.relative_to(ORCA_SOURCE)] = path.read_bytes()
+    return result
 
 
 def differences(source_root: Path, target_root: Path) -> list[str]:
