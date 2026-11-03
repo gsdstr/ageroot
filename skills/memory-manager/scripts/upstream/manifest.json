@@ -1,0 +1,151 @@
+{
+  "repository": "https://github.com/codejunkie99/agentic-stack",
+  "revision": "9424c58e1cfc17a709d1adfa13678e876edfe409",
+  "runtime_api": 1,
+  "license": "Apache-2.0",
+  "adapter_notes": {
+    "root_resolution": "Ageroot adapter resolves memory root via --memory-root, MEMORY_MANAGER_DATA_ROOT, explicit --config, then <project-root>/.agents/memory.",
+    "preferences": "Project preferences resolve separately to <project-root>/.agents/PREFERENCES.md; personal/ and working/ categories are omitted.",
+    "auxiliary_paths": "Auxiliary state lives under memory root: episodic/, semantic/, candidates/, .index/memory.db, .features.json, REVIEW_QUEUE.md.",
+    "mutation_boundary": "memory-manager workflow commands preserve append-only episodic and semantic journals; memory-maintenance owns safe maintenance rewrites.",
+    "locking": "Bounded-time root lock (.lock) coordinates all concurrent workflow appenders and maintenance rewrites.",
+    "search": "SQLite FTS5 full text search enabled by default in new feature config; query-time lazy rebuild, explicit rebuild, and rg/grep fallback with clear unavailable diagnostics."
+  },
+  "files": [
+    {
+      "source": ".agent/memory/render_lessons.py",
+      "vendored": "memory/render_lessons.py",
+      "sha256": "b53aa21366db1ba6eb50eb1549c0821906499ae3ed55bb62ca2c3c69db5bee94"
+    },
+    {
+      "source": ".agent/memory/decay.py",
+      "vendored": "memory/decay.py",
+      "sha256": "9b46a6b0661a3fa9cccf8ec12b59552e4f307676932202b01bc8fbd9755da28d"
+    },
+    {
+      "source": ".agent/memory/promote.py",
+      "vendored": "memory/promote.py",
+      "sha256": "f218de0cc294e74870499a0bf218e6476b4cf339871f46f3691c26229192cd71"
+    },
+    {
+      "source": ".agent/memory/memory_search.py",
+      "vendored": "memory/memory_search.py",
+      "sha256": "2d5a095ef733d9fe4f60cd306729d6bf17b4469f92ee79dd4f37609dcc397ee0"
+    },
+    {
+      "source": ".agent/memory/validate.py",
+      "vendored": "memory/validate.py",
+      "sha256": "4eba979f9839a5a5f1d559a414c4520d9eaf027f0b8b42dbf63d48fe53e050db"
+    },
+    {
+      "source": ".agent/memory/cluster.py",
+      "vendored": "memory/cluster.py",
+      "sha256": "6b0445900ade2fc180a389cbcc23fb53a64de48ef82bbd8e5c26908f744e49e7"
+    },
+    {
+      "source": ".agent/memory/archive.py",
+      "vendored": "memory/archive.py",
+      "sha256": "279eb97507acd1be0dc9d44836d4b27ff84a342c758161b2ef6393c1d5cbead2"
+    },
+    {
+      "source": ".agent/memory/review_state.py",
+      "vendored": "memory/review_state.py",
+      "sha256": "cc02d6b9c9cb8b262431c8bce8ffeda5a493b784ac9c53624092238badeb31df"
+    },
+    {
+      "source": ".agent/memory/auto_dream.py",
+      "vendored": "memory/auto_dream.py",
+      "sha256": "a28641de169677416d36698956b9fe03f1825eed7d4d9a34594982ae42519bd9"
+    },
+    {
+      "source": ".agent/tools/memory_reflect.py",
+      "vendored": "tools/memory_reflect.py",
+      "sha256": "6f9fb4e1e957ed2f15bf3c31add98c078b6df9f49503465c8c998687a60c1dde"
+    },
+    {
+      "source": ".agent/tools/learn.py",
+      "vendored": "tools/learn.py",
+      "sha256": "68adf2ec4774fc669f7b2b9d624b4efe91f61667d70c658fb9e4a30fa6663892"
+    },
+    {
+      "source": ".agent/tools/recall.py",
+      "vendored": "tools/recall.py",
+      "sha256": "486674ba66bf2a9ff16c3451fd4a2948dacb0ce05bd9f250f26951610b3f3564"
+    },
+    {
+      "source": ".agent/tools/graduate.py",
+      "vendored": "tools/graduate.py",
+      "sha256": "5371f15efb158eb4e53b3310758a080d359cff54d155046eb6c3491d575d09af"
+    },
+    {
+      "source": ".agent/tools/reject.py",
+      "vendored": "tools/reject.py",
+      "sha256": "8f86d95f6b3e2ca4190ffdba19e721f7dc742c0cf5dc3dac48f8b48bdb3b610c"
+    },
+    {
+      "source": ".agent/tools/reopen.py",
+      "vendored": "tools/reopen.py",
+      "sha256": "5ab15f022ef83a59e96689b65f112dff8b6900b6a18a22a05a95e7049becfeef"
+    },
+    {
+      "source": ".agent/tools/retract_lesson.py",
+      "vendored": "tools/retract_lesson.py",
+      "sha256": "6d14198c5e3817a880a4c255e8313145042f28b4877048ab0b2c96a0063f32b8"
+    },
+    {
+      "source": ".agent/tools/list_candidates.py",
+      "vendored": "tools/list_candidates.py",
+      "sha256": "215449bbea59f615f0df56fd996cc84b166ad08ef3f0f7fc4855ed2bcc43e881"
+    },
+    {
+      "source": ".agent/tools/show.py",
+      "vendored": "tools/show.py",
+      "sha256": "8df8ced299257ff033e7c291fa4884b5351cf9ab532b3827feba5ae5b41f8af0"
+    },
+    {
+      "source": ".agent/tools/budget_tracker.py",
+      "vendored": "tools/budget_tracker.py",
+      "sha256": "99de693ae613bed86073f6d1a653400ac11426a82ec673043e69a62cfad814c2"
+    },
+    {
+      "source": ".agent/harness/text.py",
+      "vendored": "harness/text.py",
+      "sha256": "22fe0b84aacb4796b930fcb3f4a351d7bb96c9c145427ebf084254c9cfb6e081"
+    },
+    {
+      "source": ".agent/harness/salience.py",
+      "vendored": "harness/salience.py",
+      "sha256": "8272b133cf4a7282e7393fe929423534359739dd90154a686e729eb832f86199"
+    },
+    {
+      "source": ".agent/harness/context_budget.py",
+      "vendored": "harness/context_budget.py",
+      "sha256": "2cce4f8ea293e68910e4bb87004c0401eaf58c44f0b33bce12088f7fe3c00670"
+    },
+    {
+      "source": ".agent/harness/hooks/_episodic_io.py",
+      "vendored": "harness/hooks/_episodic_io.py",
+      "sha256": "471456754c8a1e9b9750501cba677e642d3f7ccc5e7d99a105ab6958ca911cc9"
+    },
+    {
+      "source": ".agent/harness/hooks/_provenance.py",
+      "vendored": "harness/hooks/_provenance.py",
+      "sha256": "93fab6e3de70ecbbe4aa036436e95af2747750c185f33344b3de54ba758b3767"
+    },
+    {
+      "source": ".agent/harness/hooks/post_execution.py",
+      "vendored": "harness/hooks/post_execution.py",
+      "sha256": "5fda65dc276ca0f0f22c34964df56c3a2f739fc5d60b8d23f54ced5218e83cb3"
+    },
+    {
+      "source": ".agent/harness/hooks/on_failure.py",
+      "vendored": "harness/hooks/on_failure.py",
+      "sha256": "1556da1a21a205f6196473749f222d698ceb7546aa482fc98229f56ba90d49a8"
+    },
+    {
+      "source": "LICENSE",
+      "vendored": "LICENSE",
+      "sha256": "f341c428d5d39ccc00443711ec0c21da9ea041aa459a6f02f1af925c84a054a3"
+    }
+  ]
+}

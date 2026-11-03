@@ -1,0 +1,28 @@
+schema: 1
+
+template:
+  name: ageroot
+  version: 0.1.0
+  source: <template-source>
+  commit: <short-git-commit>
+
+installed_at: <ISO-8601 timestamp>
+rendered_at: <ISO-8601 timestamp>
+
+managed_files:
+  - path: AGENTS.md
+    strategy: managed-regions
+  - path: .agents/AGENTS.md
+    strategy: managed-regions
+  - path: .agents/PREFERENCES.md
+    strategy: generated
+  - path: .agents/SETUP.md
+    strategy: generated
+  - path: .agents/SKILLS.md
+    strategy: generated
+  - path: .agents/rules/rtk-rules.md
+    strategy: generated
+  - path: .agents/protocols/
+    strategy: generated
+  - path: .agents/skills/
+    strategy: external-link

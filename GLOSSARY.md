@@ -237,6 +237,10 @@ _Avoid_: per-file snapshot commit, deferred snapshot update
 The unified module that runs a safety-first dry-run comparison over new renders and executes atomic apply with transactional snapshot commit.
 _Avoid_: comparison runner, update script
 
+**Distribution module**:
+The module that discovers canonical sources, verifies completeness and ownership, renders the consumer payload mapping, and validates whole-payload drift before handoff to the Update engine.
+_Avoid_: package manager, install script, template generator
+
 **Workspace drift check**:
 A pre-apply verification that workspace file contents match the hashes observed during dry-run inspection, preventing concurrent file edits from being silently overwritten.
 _Avoid_: sync check, optimistic locking
