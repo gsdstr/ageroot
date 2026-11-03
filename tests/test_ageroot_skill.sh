@@ -28,4 +28,17 @@ python3 "$RUNNER" plan --repo-root "$REPO_ROOT" --target "$TEMP_DIR"
 # Run apply on target
 python3 "$RUNNER" apply --repo-root "$REPO_ROOT" --target "$TEMP_DIR"
 
+echo "=== Testing auto-resolution of repo root without --repo-root argument ==="
+python3 "$RUNNER" plan --target "$TEMP_DIR"
+
+echo "=== Testing snapshot-sync after wiping snapshots ==="
+rm -rf "$TEMP_DIR/.agents/snapshots"
+python3 "$RUNNER" snapshot-sync --target "$TEMP_DIR"
+test -d "$TEMP_DIR/.agents/snapshots"
+
+echo "=== Testing self-healing plan when snapshots are missing ==="
+rm -rf "$TEMP_DIR/.agents/snapshots"
+python3 "$RUNNER" plan --target "$TEMP_DIR"
+test -d "$TEMP_DIR/.agents/snapshots"
+
 echo "Ageroot skill CLI tests passed successfully!"

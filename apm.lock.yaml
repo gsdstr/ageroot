@@ -12,13 +12,13 @@ dependencies:
   - .agents/skills/ageroot/references/SKILLS.md
   - .agents/skills/ageroot/scripts/ageroot.py
   deployed_file_hashes:
-    .agents/skills/ageroot/SKILL.md: sha256:c4cd9ebabc4467ce28951daf9f8587147cce9bd12be3088bbba7aeb5f33238a8
+    .agents/skills/ageroot/SKILL.md: sha256:63f7d0b835939ca7dca8154d3482337d895c7667a64a61dd869ae14c22ca93b6
     .agents/skills/ageroot/references/SETUP.md: sha256:f3fbb159405f989907d17e2b38ce8eb7f5fef3390c6caf7fef413bdba35f0adf
     .agents/skills/ageroot/references/SKILLS.md: sha256:47182504df43750483086aad808baa097d50e7386ba53f5025e99e4f6d43927b
-    .agents/skills/ageroot/scripts/ageroot.py: sha256:960de387e1af4be60d63fae4765399adc4abaae2eac7b9e72d5ef6a1d99f1016
+    .agents/skills/ageroot/scripts/ageroot.py: sha256:241bce7c5d5b224e7812b73aba73165b80363072b18e6c647a20eb15e4640b76
   source: local
   local_path: ./skills/ageroot
-  content_hash: sha256:cc68d269b75abb702d85d84338c2179e57348b88ff61df47a948d08a0f34cebd
+  content_hash: sha256:ea27350e31dd501825615af6701dff98ded09337c8b7ca1030f97d74ca7ee7b4
 - repo_url: _local/memory-maintenance
   name: memory-maintenance
   version: unknown
@@ -490,7 +490,7 @@ deployments:
   owners:
   - ./skills/ageroot
   active_owner: ./skills/ageroot
-  content_hash: sha256:c4cd9ebabc4467ce28951daf9f8587147cce9bd12be3088bbba7aeb5f33238a8
+  content_hash: sha256:63f7d0b835939ca7dca8154d3482337d895c7667a64a61dd869ae14c22ca93b6
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/ageroot/references/SETUP.md
@@ -517,7 +517,7 @@ deployments:
   owners:
   - ./skills/ageroot
   active_owner: ./skills/ageroot
-  content_hash: sha256:960de387e1af4be60d63fae4765399adc4abaae2eac7b9e72d5ef6a1d99f1016
+  content_hash: sha256:241bce7c5d5b224e7812b73aba73165b80363072b18e6c647a20eb15e4640b76
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/ask-matt

@@ -43,6 +43,9 @@ python3 "$RUNNER" apply
 
 # 4. Atomic apply with confirmed deletions
 python3 "$RUNNER" apply --allow-deletions
+
+# 5. Reconstruct missing snapshots from workspace after git clone
+python3 "$RUNNER" snapshot-sync
 ```
 
 ## References
