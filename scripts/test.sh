@@ -13,7 +13,7 @@ python3 scripts/sync-orchestration-package.py --check
 
 echo ""
 echo "=== 3. Memory Skills Lifecycle & Concurrency Tests ==="
-sh skills/tests/run_all.sh
+sh tests/run_all.sh
 
 echo ""
 echo "=== 4. Distribution Whole-Payload Export & Drift Check ==="
