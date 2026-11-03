@@ -26,8 +26,10 @@ invocation. Humans edit this file; the agent does not.
 - Disable or bypass `pre_tool_call` hooks.
 
 ## Approved external domains
+<!-- region:domains kind:user -->
 - `api.github.com`
 - `registry.npmjs.org`
 - `pypi.org`
 - `api.anthropic.com`
 - `api.openai.com`
+<!-- endregion:domains -->
