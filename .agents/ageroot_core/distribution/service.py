@@ -23,7 +23,6 @@ from ageroot_core.comparison import (
 )
 from ageroot_core.distribution.collector import collect_payload, is_ignored_file
 
-
 def get_git_commit(repo_root: Path) -> str:
     """Gets short git commit hash or 'unknown'."""
     try:
@@ -36,7 +35,6 @@ def get_git_commit(repo_root: Path) -> str:
         return res.stdout.strip()
     except Exception:
         return "unknown"
-
 
 class DistributionService:
     """Coordinates whole-payload export, drift checking, and local sync."""
@@ -86,7 +84,9 @@ class DistributionService:
 
         # Check for unexpected files in managed prefixes
         managed_prefixes = [
-            ".agents/orchestration",
+            ".agents/orchestration",  # Retired: report stale installs as drift.
+            ".agents/skills/ageroot-orchestrate",
+            ".agents/skills/ageroot-roles",
             ".agents/ageroot_core",
             ".agents/protocols",
             ".agents/rules",
@@ -175,13 +175,17 @@ class DistributionService:
         target_dir: Path,
         components: Optional[Sequence[str]] = None,
         allow_deletions: bool = False,
+        one_time_unverified_override: bool = False,
     ) -> Tuple[DryRunReport, ApplyOutcome]:
         """Runs the Update engine dry-run and atomic apply against target_dir."""
         target = Path(target_dir).resolve()
         renders, _ = collect_payload(self.repo_root, selected_components=components)
 
         engine = AgerootUpdateEngine(root_dir=target)
-        dry_run_opts = DryRunOptions(allow_deletions=allow_deletions)
+        dry_run_opts = DryRunOptions(
+            allow_deletions=allow_deletions,
+            one_time_unverified_override=one_time_unverified_override,
+        )
         report = engine.dry_run(renders, options=dry_run_opts)
 
         apply_opts = ApplyOptions(allow_deletions=allow_deletions)

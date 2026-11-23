@@ -104,18 +104,4 @@ normal task work.
 
 <!-- region:project kind:user -->
 <!-- Add project-specific agent instructions here. Ageroot preserves this region. -->
-
-## Agent skills
-
-### Issue tracker
-
-Issues are tracked as local markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Uses default canonical triage labels. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Uses a single-context layout. See `docs/agents/domain.md`.
 <!-- endregion:project -->

@@ -5,16 +5,176 @@ template:
   source: local
   commit: cfe447d
 installed_at: '2026-09-03T00:00:00Z'
-rendered_at: '2026-11-02T07:28:01Z'
+rendered_at: '2026-11-23T13:17:14Z'
 managed_files:
+  - path: AGENTS.md
+    strategy: generated
+    snapshot: .agents/snapshots/AGENTS.md
+    sha256: e69650e5f56b40fb3c12bfd40cef61330408a937aa0445a16f6ea2f9c66cdd2a
+  - path: .agents/AGENTS.md
+    strategy: managed-regions
+    snapshot: .agents/snapshots/.agents/AGENTS.md
+    sha256: f5eafb43b492cd1656d883a6d74424ef54e7000453698544bb2368d1cf8d459e
   - path: .agents/PREFERENCES.md
     strategy: generated
     snapshot: .agents/snapshots/.agents/PREFERENCES.md
     sha256: 44bac322ba96ba1d52ef74e494ce57b94071e776fc608c63b75b57d56aa183a8
-  - path: .agents/AGENTS.md
-    strategy: managed-regions
-    snapshot: .agents/snapshots/.agents/AGENTS.md
-    sha256: c6a6bbb4146b748f0b83d002d6c1fb11a5a749e156f1c5bb4f52efa6acb7eb6e
+  - path: .agents/ageroot.config.yaml
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot.config.yaml
+    sha256: 4d1225ddaf4b4b6a8196c26d1fdba66a440b73cff9d7101ed51f4d9a00929ed9
+  - path: .agents/.gitignore
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/.gitignore
+    sha256: 7cfb4a4d407c0d12b07c5fc01bcf63fb0211d8f25a0cc9b1fa2401c2deac550c
+  - path: .agents/rules/rtk-rules.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/rules/rtk-rules.md
+    sha256: 23d7c851be99940a38c784238f61225290ae337090b18585ecf51b1cdac65222
+  - path: .agents/protocols/delegation.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/delegation.md
+    sha256: 6c920a6b6bef20ed7a2e3f3edcaf78ee7780daefeb090c651dea2f30df7c57de
+  - path: .agents/protocols/hook_patterns.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/hook_patterns.json
+    sha256: 411f4359ad2ad47f2cc710ec1af1bc5e10f016471d9fd813235a8f028bc46804
+  - path: .agents/protocols/permissions.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/permissions.md
+    sha256: a4efdf213670d8aa0df02f804c8950a5b5f057d8e54fe395c69c493b3df2b3ab
+  - path: .agents/protocols/tool_schemas/api.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/api.schema.json
+    sha256: 4cbe23150589a5744f589b527c3c2a60800e47805db02191c9680a594ca01e8a
+  - path: .agents/protocols/tool_schemas/github.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/github.schema.json
+    sha256: d28e460a3614aba013e59258ef2e496e06051a5142a215a3ac2ad3176e07fcc6
+  - path: .agents/protocols/tool_schemas/shell.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/shell.schema.json
+    sha256: fe07d20bd06352bf093c4ecc718cb90ae974780e1f8306247313672e8c281fdd
+  - path: .agents/ageroot_core/__init__.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/__init__.py
+    sha256: c34dac825c7a140b4a6e0e5e1e23f1c40e6f56978a52a914982b07b7218ea418
+  - path: .agents/ageroot_core/comparison.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/comparison.py
+    sha256: 86fd35f5b27e7688c3a218bd1f3bbb0e545c4ffdaf718c86c711a63b3af7660e
+  - path: .agents/ageroot_core/tests/test_comparison.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/tests/test_comparison.py
+    sha256: 437ce447bd93f31b76fab935e1cffc2c823685c25e4db5cd1e652a22a732b422
+  - path: .agents/ageroot_core/tests/test_distribution.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/tests/test_distribution.py
+    sha256: 287db99d5ba3c87f1dda21d9fb0757ae5e728feba04df08b99222a5852b5c2b7
+  - path: .agents/ageroot_core/distribution/__init__.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/distribution/__init__.py
+    sha256: a749e8c6ef1231d2640ac63f5136dcc414748800e7fa0ee918dbbaf57513730a
+  - path: .agents/ageroot_core/distribution/__main__.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/distribution/__main__.py
+    sha256: f50078505821ee4bf866a4d61c4ee3e034ecc28498967e40cf596f987ee4597a
+  - path: .agents/ageroot_core/distribution/collector.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/distribution/collector.py
+    sha256: b8128931e8831ece392d6d2cf26161034f2890f2daf7631848b567f18a200fa2
+  - path: .agents/ageroot_core/distribution/manifest.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/distribution/manifest.py
+    sha256: f402446db1c5852836e2de3975b10c33c43ae64021108dde0c4820e9a28d6f9a
+  - path: .agents/ageroot_core/distribution/service.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/ageroot_core/distribution/service.py
+    sha256: 1df1bed5e57c0dcf9e2ecd428743e8057edf1b72736b921bb82bc341a4b68e43
+  - path: .agents/skills/ageroot-orchestrate/README.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/README.md
+    sha256: 75e07cfb8717afc8d46239b48d8967855926d8eb91bdc8293a8238d1caf09715
+  - path: .agents/skills/ageroot-orchestrate/SKILL.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/SKILL.md
+    sha256: 35bbb2a60a55b906be202186c5b8f0d53b2558004f856ed9bd6fc9f7313d2b4b
+  - path: .agents/skills/ageroot-orchestrate/lifecycle-map.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/lifecycle-map.md
+    sha256: 6de62e1956e695106e8262f77508930e4fc71b802258c92cc6ad1f1eb7100350
+  - path: .agents/skills/ageroot-orchestrate/manifest.yaml
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/manifest.yaml
+    sha256: 8d978258420a9469fa850f5472a70b7862f4e1918f4846d4f0d12671a9676323
+  - path: .agents/skills/ageroot-orchestrate/tests/test_adapter.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/tests/test_adapter.py
+    sha256: 57631781168b760eb6d1aeb6ba6ca44f3e989eab1807e9dbbdc009ed5c4bc90d
+  - path: .agents/skills/ageroot-orchestrate/tests/test_validate.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/tests/test_validate.py
+    sha256: ccfc35792c2832750286490b3526cf43655f73793c3b33a2bba1dfbbb1074996
+  - path: .agents/skills/ageroot-orchestrate/schemas/handoff.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/schemas/handoff.schema.json
+    sha256: bb340bebde375cf5f83d4ab6d86fc7c0eb5a2209ef47fa82948136ff47ae7eeb
+  - path: .agents/skills/ageroot-orchestrate/schemas/lifecycle-map.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/schemas/lifecycle-map.schema.json
+    sha256: 29705db2738d013079460e0a8d170308f802e6b915d0f063fc90e4d4c8d9ef38
+  - path: .agents/skills/ageroot-orchestrate/schemas/manifest.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/schemas/manifest.schema.json
+    sha256: 73c7a03cd0484e859151355e0a6536390e6c8282ba8a67f674cb0899e4b82d21
+  - path: .agents/skills/ageroot-orchestrate/schemas/phase-template.schema.json
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/schemas/phase-template.schema.json
+    sha256: aacf2d2e2db2230f522fc928e52cf5112908e9cc9ff4ee37dc4466756d62a95e
+  - path: .agents/skills/ageroot-orchestrate/scripts/validate.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/scripts/validate.py
+    sha256: 7d102ad5c30f9f57d1e2cc9eb3d9e10f301f883412e5cffaba4b9e5a2bc412f2
+  - path: .agents/skills/ageroot-orchestrate/phases/.gitkeep
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/phases/.gitkeep
+    sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  - path: .agents/skills/ageroot-orchestrate/phases/01-intake.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/phases/01-intake.md
+    sha256: e999fd51ac4f75edd52d41ae20d01a743b4375dcb493e744ce87161cfc816a73
+  - path: .agents/skills/ageroot-orchestrate/phases/02-research-planning.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/phases/02-research-planning.md
+    sha256: 61a4ca09252b7f85acfb1bab63568aa2a243087a0688ac1da9032ffbaa88182a
+  - path: .agents/skills/ageroot-orchestrate/phases/03-implementation.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/phases/03-implementation.md
+    sha256: 6e5275e8f731c3f34387ce74d70f654b27a800bb327284bf36f40af399902095
+  - path: .agents/skills/ageroot-orchestrate/phases/04-review-integration.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/phases/04-review-integration.md
+    sha256: e3c6c5327917bf1d268db2067594ca6dfcd4e270bbc75d7849fe880e34842526
+  - path: .agents/skills/ageroot-orchestrate/orca/RUNBOOK.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/orca/RUNBOOK.md
+    sha256: c0fa2c20c125fb12510a4fdb388e5eed66e9fc79960fabb67b6ab98a3170370d
+  - path: .agents/skills/ageroot-orchestrate/orca/adapter.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-orchestrate/orca/adapter.py
+    sha256: 6b3e7f5c89b22af900628c74c031af4f435c4f95ba6ff41b40fba63aa7a93e20
+  - path: .agents/skills/ageroot-roles/SKILL.md
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-roles/SKILL.md
+    sha256: c03fbb817de745c17304f8c76bf60f7edf4b84f6a00d31bb362b41890239955d
+  - path: .agents/skills/ageroot-roles/tests/test_roles.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-roles/tests/test_roles.py
+    sha256: 2990d87d9dc3d892e576ddbb7b3b1af93e59955db0543759cac6caae69af3b18
+  - path: .agents/skills/ageroot-roles/scripts/roles.py
+    strategy: generated
+    snapshot: .agents/snapshots/.agents/skills/ageroot-roles/scripts/roles.py
+    sha256: 41f1eae9bd2bec330beac1da551aac606b4771df6a871436555f340171b600dc
   - path: .agents/orchestration/README.md
     strategy: generated
     snapshot: .agents/snapshots/.agents/orchestration/README.md
@@ -27,34 +187,10 @@ managed_files:
     strategy: generated
     snapshot: .agents/snapshots/.agents/orchestration/lifecycle-map.md
     sha256: 6de62e1956e695106e8262f77508930e4fc71b802258c92cc6ad1f1eb7100350
-  - path: .agents/rules/rtk-rules.md
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/rules/rtk-rules.md
-    sha256: 23d7c851be99940a38c784238f61225290ae337090b18585ecf51b1cdac65222
-  - path: .agents/ageroot_core/__init__.py
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/ageroot_core/__init__.py
-    sha256: c34dac825c7a140b4a6e0e5e1e23f1c40e6f56978a52a914982b07b7218ea418
-  - path: .agents/ageroot_core/comparison.py
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/ageroot_core/comparison.py
-    sha256: e04e08c699deef7625fc12c14edfe3fbb0e71a31262d7ed49ae1cc6560d1c4e8
-  - path: .agents/protocols/permissions.md
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/permissions.md
-    sha256: 33b0b9b0ba69e83de76f677ef20bc3ceee5fea65606ce2150564daec96ba42da
   - path: .agents/protocols/orchestration.md
     strategy: generated
     snapshot: .agents/snapshots/.agents/protocols/orchestration.md
     sha256: b3c0aaeb3d19202cf6ad9cd390536519c99151890b7c464741e0231628609c72
-  - path: .agents/protocols/delegation.md
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/delegation.md
-    sha256: 68e34ed4284a60cf519856b8bfc2257c81beb62d0ec865f967fc807ab1b14741
-  - path: .agents/protocols/hook_patterns.json
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/hook_patterns.json
-    sha256: 411f4359ad2ad47f2cc710ec1af1bc5e10f016471d9fd813235a8f028bc46804
   - path: .agents/orchestration/schemas/lifecycle-map.schema.json
     strategy: generated
     snapshot: .agents/snapshots/.agents/orchestration/schemas/lifecycle-map.schema.json
@@ -99,25 +235,5 @@ managed_files:
     strategy: generated
     snapshot: .agents/snapshots/.agents/orchestration/orca/RUNBOOK.md
     sha256: ce8297f43c9ccc186083510174742b7f96a35e556b7c7f91c12702294d40519f
-  - path: .agents/ageroot_core/tests/test_comparison.py
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/ageroot_core/tests/test_comparison.py
-    sha256: 791d8c51a94521cf0d2c89a847c0112c5b2df29e07d8f855dbe05a54e028c505
-  - path: .agents/protocols/tool_schemas/api.schema.json
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/api.schema.json
-    sha256: 4cbe23150589a5744f589b527c3c2a60800e47805db02191c9680a594ca01e8a
-  - path: .agents/protocols/tool_schemas/github.schema.json
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/github.schema.json
-    sha256: d28e460a3614aba013e59258ef2e496e06051a5142a215a3ac2ad3176e07fcc6
-  - path: .agents/protocols/tool_schemas/shell.schema.json
-    strategy: generated
-    snapshot: .agents/snapshots/.agents/protocols/tool_schemas/shell.schema.json
-    sha256: fe07d20bd06352bf093c4ecc718cb90ae974780e1f8306247313672e8c281fdd
-  - path: AGENTS.md
-    strategy: generated
-    snapshot: .agents/snapshots/AGENTS.md
-    sha256: c22fb46f6a237857e1bfa6d36c6ca34fe7539521866cf7d885b59d8288cb49c6
   - path: .agents/skills/
     strategy: external-link

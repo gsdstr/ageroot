@@ -24,7 +24,6 @@ from ageroot_core import (
 )
 from ageroot_core.comparison import SimpleYamlHelper
 
-
 class TestDeterministicNormalizer(unittest.TestCase):
     def test_crlf_and_trailing_whitespace(self):
         raw = "line 1   \r\nline 2\t\r\n\r\n\r\n\r\nline 3   \r\n"
@@ -36,10 +35,9 @@ class TestDeterministicNormalizer(unittest.TestCase):
         self.assertEqual(DeterministicNormalizer.normalize_text("   \r\n\n"), "")
 
     def test_generated_by_provenance_is_metadata_only(self):
-        old = "<!-- generated-by: ageroot; template: 0.1.0; commit: abc1234; rendered-at: 2026-09-03T00:00:00Z -->\n# Title\n"
-        new = "<!-- generated-by: ageroot; template: 0.1.1; commit: def5678; rendered-at: 2026-09-04T00:00:00Z -->\n# Title\n"
+        old = "<!-- generated-by: ageroot -->\n# Title\n"
+        new = "<!-- generated-by: ageroot -->\n# Title\n"
         self.assertEqual(DeterministicNormalizer.normalize_text(old), DeterministicNormalizer.normalize_text(new))
-
 
 class TestSnapshotStore(unittest.TestCase):
     def setUp(self):
@@ -70,7 +68,6 @@ class TestSnapshotStore(unittest.TestCase):
         self.assertEqual(err, "missing")
         self.assertIsNone(read_content)
 
-
 class TestManagedRegionParser(unittest.TestCase):
     def test_has_region_markers(self):
         # Type 1: VS Code #region in various comment styles
@@ -97,7 +94,7 @@ class TestManagedRegionParser(unittest.TestCase):
 
         # Type 2: Metadata directives (must NOT match as region markers)
         self.assertFalse(ManagedRegionParser.has_region_markers(
-            "<!-- generated-by: ageroot; template: 0.1.0; commit: abc; rendered-at: 2026-09-03T00:00:00Z -->"
+            "<!-- generated-by: ageroot -->"
         ))
         self.assertFalse(ManagedRegionParser.has_region_markers("# generated-by: ageroot"))
         self.assertFalse(ManagedRegionParser.has_region_markers("// generated-by: ageroot"))
@@ -195,8 +192,8 @@ class TestManagedRegionParser(unittest.TestCase):
 
     def test_type2_metadata_directive_normalization(self):
         # Standalone generated-by is treated as unmanaged metadata and normalized
-        meta1 = "<!-- generated-by: ageroot; template: 0.1.0; commit: abc; rendered-at: 2026-09-03T00:00:00Z -->\n# Title\n"
-        meta2 = "<!-- generated-by: ageroot; template: 0.2.0; commit: def; rendered-at: 2026-09-04T00:00:00Z -->\n# Title\n"
+        meta1 = "<!-- generated-by: ageroot -->\n# Title\n"
+        meta2 = "<!-- generated-by: ageroot -->\n# Title\n"
         self.assertEqual(
             DeterministicNormalizer.normalize_text(meta1),
             DeterministicNormalizer.normalize_text(meta2),
@@ -290,7 +287,6 @@ class TestManagedRegionParser(unittest.TestCase):
         self.assertIn("user content", res.merged_text)
         self.assertIn("feature 1.0", res.merged_text)
 
-
 class TestSimpleYamlHelper(unittest.TestCase):
     def test_yaml_parse_and_dump_roundtrip(self):
         yaml_content = (
@@ -320,7 +316,6 @@ class TestSimpleYamlHelper(unittest.TestCase):
         dumped = SimpleYamlHelper.dump(parsed)
         reparsed = SimpleYamlHelper.parse(dumped)
         self.assertEqual(parsed, reparsed)
-
 
 class TestAgerootUpdateEngine(unittest.TestCase):
     def setUp(self):
@@ -613,6 +608,31 @@ class TestAgerootUpdateEngine(unittest.TestCase):
         outcome_override = self.engine.apply(report_override)
         self.assertTrue(outcome_override.success)
 
+    def test_snapshot_self_healing_missing_on_clone(self):
+        rel_path = ".agents/AGENTS.md"
+        base_text = "# Baseline\n"
+        target = self.root / rel_path
+        target.write_text(base_text, encoding="utf-8")
+        expected_sha = SnapshotStore.compute_sha256(base_text)
+
+        # Record state as if from git clone with no snapshots on disk
+        state = SimpleYamlHelper.parse(self.state_path.read_text(encoding="utf-8"))
+        state["managed_files"] = [
+            {"path": rel_path, "strategy": "generated", "snapshot": f".agents/snapshots/{rel_path}", "sha256": expected_sha}
+        ]
+        self.state_path.write_text(SimpleYamlHelper.dump(state), encoding="utf-8")
+
+        # Snapshot file does NOT exist
+        snap_file = self.engine.snapshot_store.get_snapshot_path(rel_path)
+        self.assertFalse(snap_file.exists())
+
+        # Dry run should self-heal snapshot because workspace matches sha256
+        report = self.engine.dry_run({rel_path: "# New Render\n"})
+        self.assertEqual(report[rel_path].result_class, ResultClass.CHANGED)
+        self.assertTrue(report.is_eligible)
+        self.assertTrue(snap_file.exists())
+        self.assertEqual(snap_file.read_text(encoding="utf-8"), base_text)
+
     def test_external_link_validation_and_persistence(self):
         rel_link = ".agents/skills/planning"
         target_dir = self.root / ".skills-manager" / "planning"
@@ -797,7 +817,6 @@ class TestAgerootUpdateEngine(unittest.TestCase):
         self.assertIn("Attention Required", summary)
         self.assertIn(".agents/rules.md", summary)
         self.assertIn("Full Diff Access", summary)
-
 
 if __name__ == "__main__":
     unittest.main()

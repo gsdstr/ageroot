@@ -164,11 +164,15 @@ def cmd_plan(
     target_dir: Path,
     components: Optional[List[str]],
     allow_deletions: bool,
+    unverified_override: bool = False,
 ) -> int:
     """Execute safety-first dry run comparison."""
     renders, _ = collect_payload(repo_root, selected_components=components)
     engine = AgerootUpdateEngine(root_dir=target_dir)
-    dry_run_opts = DryRunOptions(allow_deletions=allow_deletions)
+    dry_run_opts = DryRunOptions(
+        allow_deletions=allow_deletions,
+        one_time_unverified_override=unverified_override,
+    )
     report = engine.dry_run(renders, options=dry_run_opts)
     print(format_summary(report))
 
@@ -187,6 +191,7 @@ def cmd_apply(
     target_dir: Path,
     components: Optional[List[str]],
     allow_deletions: bool,
+    unverified_override: bool = False,
 ) -> int:
     """Execute atomic update with transactional snapshot commit."""
     service = DistributionService(repo_root=repo_root)
@@ -194,6 +199,7 @@ def cmd_apply(
         target_dir=target_dir,
         components=components,
         allow_deletions=allow_deletions,
+        one_time_unverified_override=unverified_override,
     )
     print(format_summary(report))
     if not outcome.success:
@@ -242,6 +248,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     plan_p.add_argument("--target", type=Path, default=Path("."), help="Target directory (default: .)")
     plan_p.add_argument("--components", type=str, default=None, help="Comma-separated component list")
     plan_p.add_argument("--allow-deletions", action="store_true", help="Permit pending deletions")
+    plan_p.add_argument(
+        "--unverified-override",
+        action="store_true",
+        help="Permit one-time unverified override for missing or corrupt baseline snapshots",
+    )
 
     # apply
     apply_p = subparsers.add_parser("apply", help="Execute atomic update with snapshot commit")
@@ -249,6 +260,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     apply_p.add_argument("--target", type=Path, default=Path("."), help="Target directory (default: .)")
     apply_p.add_argument("--components", type=str, default=None, help="Comma-separated component list")
     apply_p.add_argument("--allow-deletions", action="store_true", help="Permit pending deletions")
+    apply_p.add_argument(
+        "--unverified-override",
+        action="store_true",
+        help="Permit one-time unverified override for missing or corrupt baseline snapshots",
+    )
 
     # snapshot-sync
     sync_p = subparsers.add_parser(
@@ -271,9 +287,21 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "check":
         return cmd_check(service, target_dir, components)
     elif args.command == "plan":
-        return cmd_plan(repo_root, target_dir, components, args.allow_deletions)
+        return cmd_plan(
+            repo_root,
+            target_dir,
+            components,
+            args.allow_deletions,
+            args.unverified_override,
+        )
     elif args.command == "apply":
-        return cmd_apply(repo_root, target_dir, components, args.allow_deletions)
+        return cmd_apply(
+            repo_root,
+            target_dir,
+            components,
+            args.allow_deletions,
+            args.unverified_override,
+        )
 
     return 0
 

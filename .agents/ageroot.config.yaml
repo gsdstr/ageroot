@@ -3,7 +3,7 @@ schema: 1
 snapshots: enabled
 
 project:
-  name: agentic-stack
+  name: <project-name>
 
 agent:
   language: en

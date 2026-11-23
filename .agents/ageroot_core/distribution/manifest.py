@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional
 
-
 @dataclass(frozen=True)
 class MappingRule:
     """Mapping from a source directory or file to a destination in the payload."""
@@ -15,7 +14,6 @@ class MappingRule:
     strategy: str = "generated"
     pattern: str = "**/*"
 
-
 @dataclass
 class DistributionComponent:
     """A named, independently selectable distribution unit."""
@@ -23,7 +21,6 @@ class DistributionComponent:
     description: str
     is_default: bool
     rules: List[MappingRule] = field(default_factory=list)
-
 
 def get_default_components() -> Dict[str, DistributionComponent]:
     """Returns the canonical catalog of Ageroot distribution components."""
@@ -54,6 +51,11 @@ def get_default_components() -> Dict[str, DistributionComponent]:
                     strategy="generated",
                 ),
                 MappingRule(
+                    source_prefix="templates/core/.agents/.gitignore",
+                    target_prefix=".agents/.gitignore",
+                    strategy="generated",
+                ),
+                MappingRule(
                     source_prefix="templates/core/.agents/rules",
                     target_prefix=".agents/rules",
                     strategy="generated",
@@ -73,31 +75,23 @@ def get_default_components() -> Dict[str, DistributionComponent]:
                 ),
             ],
         ),
-        "orchestration": DistributionComponent(
-            name="orchestration",
-            description="Neutral portable orchestration package specification and templates",
+        "ageroot-orchestrate": DistributionComponent(
+            name="ageroot-orchestrate",
+            description="First-party neutral orchestration skill and Orca adapter",
             is_default=True,
-            rules=[
-                MappingRule(
-                    source_prefix="templates/orchestration/v1",
-                    target_prefix=".agents/orchestration",
-                    strategy="generated",
-                    pattern="**/*",
-                ),
-            ],
+            rules=[MappingRule(
+                source_prefix="skills/ageroot-orchestrate",
+                target_prefix=".agents/skills/ageroot-orchestrate",
+            )],
         ),
-        "orca_adapter": DistributionComponent(
-            name="orca_adapter",
-            description="Orca orchestration adapter overlay and runbook",
+        "ageroot-roles": DistributionComponent(
+            name="ageroot-roles",
+            description="First-party standalone role routing skill",
             is_default=True,
-            rules=[
-                MappingRule(
-                    source_prefix="templates/orchestration/orca",
-                    target_prefix=".agents/orchestration/orca",
-                    strategy="generated",
-                    pattern="**/*",
-                ),
-            ],
+            rules=[MappingRule(
+                source_prefix="skills/ageroot-roles",
+                target_prefix=".agents/skills/ageroot-roles",
+            )],
         ),
         "memory": DistributionComponent(
             name="memory",

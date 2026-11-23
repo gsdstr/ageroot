@@ -177,13 +177,17 @@ class DistributionService:
         target_dir: Path,
         components: Optional[Sequence[str]] = None,
         allow_deletions: bool = False,
+        one_time_unverified_override: bool = False,
     ) -> Tuple[DryRunReport, ApplyOutcome]:
         """Runs the Update engine dry-run and atomic apply against target_dir."""
         target = Path(target_dir).resolve()
         renders, _ = collect_payload(self.repo_root, selected_components=components)
 
         engine = AgerootUpdateEngine(root_dir=target)
-        dry_run_opts = DryRunOptions(allow_deletions=allow_deletions)
+        dry_run_opts = DryRunOptions(
+            allow_deletions=allow_deletions,
+            one_time_unverified_override=one_time_unverified_override,
+        )
         report = engine.dry_run(renders, options=dry_run_opts)
 
         apply_opts = ApplyOptions(allow_deletions=allow_deletions)

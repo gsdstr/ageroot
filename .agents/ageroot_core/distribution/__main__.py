@@ -10,7 +10,6 @@ from typing import List, Optional
 from ageroot_core.comparison import format_summary
 from ageroot_core.distribution.service import DistributionService
 
-
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python3 -m ageroot_core.distribution",
@@ -50,7 +49,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--components",
         type=str,
         default=None,
-        help="Comma-separated component list (e.g. 'core,orchestration,orca_adapter,memory')",
+        help="Comma-separated component list (e.g. 'core,ageroot-orchestrate,ageroot-roles,memory')",
     )
     parser.add_argument(
         "--allow-deletions",
@@ -96,7 +95,6 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 0
 
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
