@@ -40,6 +40,7 @@ roles:
     targets:
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
       - harness: opencode
         model: qwen-2.5-coder
       - harness: agy

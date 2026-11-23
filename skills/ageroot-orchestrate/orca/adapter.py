@@ -74,6 +74,7 @@ def main() -> int:
             'role': role.title(),
             'assigned_harness': target.get('harness'),
             'assigned_model': target.get('model'),
+            'assigned_effort': target.get('effort'),
             'resolution': resolution,
             'depends_on': PHASES[index - 1:index],
         })

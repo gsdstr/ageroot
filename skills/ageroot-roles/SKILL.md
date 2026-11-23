@@ -54,7 +54,8 @@ roles:
 
 Canonical names: `coordinator`, `researcher`, `author`, `builder`, `reviewer`,
 `integrator`. Use two-space block mappings and target lists. Each target
-contains exactly nonempty string `harness` and `model` fields. Version must
+contains nonempty string `harness` and `model` fields, and an optional nonempty
+string `effort` field (e.g. `low`, `medium`, `high`, `max`). Version must
 be integer 1. Duplicate keys, nulls, extra fields, YAML anchors/tags, and flow
 collections other than the empty list are validation errors with line numbers.
 Quote numeric-looking model IDs. Partial role maps inherit missing roles.

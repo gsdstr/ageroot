@@ -36,6 +36,17 @@ class ParserTests(unittest.TestCase):
         targets = [{'harness': 'codex', 'model': 'one'}, {'harness': 'agy', 'model': 'two'}]
         self.assertEqual(roles.parse_config(config(targets=targets))['roles']['builder']['targets'], targets)
 
+    def test_target_with_effort(self):
+        text = "version: 1\nroles:\n  builder:\n    targets:\n      - harness: codex\n        model: gpt-test\n        effort: high\n"
+        parsed = roles.parse_config(text)
+        self.assertEqual(parsed['roles']['builder']['targets'][0]['effort'], 'high')
+
+    def test_dump_config_preserves_effort(self):
+        dumped = roles.dump_config({'builder': {'targets': [{'harness': 'codex', 'model': 'gpt-test', 'effort': 'high'}]}})
+        self.assertIn('effort: "high"', dumped)
+        parsed = roles.parse_config(dumped)
+        self.assertEqual(parsed['roles']['builder']['targets'][0]['effort'], 'high')
+
     def test_invalid_configs(self):
         valid = config()
         cases = {
@@ -58,6 +69,9 @@ class ParserTests(unittest.TestCase):
             'numeric model': valid.replace('"gpt-test"', '123'),
             'float model': valid.replace('"gpt-test"', '1.5'),
             'exponent model': valid.replace('"gpt-test"', '1e3'),
+            'empty effort': valid + '        effort: ""\n',
+            'null effort': valid + '        effort: null\n',
+            'numeric effort': valid + '        effort: 123\n',
             'uppercase boolean': valid.replace('"gpt-test"', 'TRUE'),
             'hex model': valid.replace('"gpt-test"', '0x12'),
             'numeric harness': valid.replace('"codex"', '123'),
@@ -206,6 +220,14 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('TARGETS', result.stdout)
         self.assertIn('reviewer', result.stdout)
+
+    def test_resolve_target_with_effort(self):
+        self.write('local', config('reviewer', [{'harness': 'codex', 'model': 'gpt-test', 'effort': 'high'}]))
+        result = self.cli('resolve', 'reviewer')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data['status'], 'resolved')
+        self.assertEqual(data['target']['effort'], 'high')
 
     def test_cli_exclusion_flags(self):
         self.write('local', config('reviewer', [{'harness': 'codex', 'model': 'gpt-test'}]))

@@ -55,23 +55,24 @@ python3 <skills-dir>/ageroot-roles/scripts/roles.py resolve builder --workspace 
 python3 <skills-dir>/ageroot-roles/scripts/roles.py resolve reviewer --workspace <root> --exclude-model <builder-model> --exclude-family <builder-family>
 ```
 
-Use resolution JSON `target.harness` and `target.model` for agent/model
-parameters. Record the winning layer and candidate index. If unavailable,
-pause and reconcile configuration; never bypass an explicit target list.
-Check `unverified` runtime support before dispatch, and verify actual model
+Use resolution JSON `target.harness`, `target.model`, and optional `target.effort`
+for agent/model/effort parameters. Record the winning layer and candidate index.
+If unavailable, pause and reconcile configuration; never bypass an explicit target
+list. Check `unverified` runtime support before dispatch, and verify actual model
 access locally. No network/model entitlement is inferred from PATH presence.
 
 `adapter.py` resolves its four phase roles dynamically through the sibling
 `ageroot-roles/scripts/roles.py`. Reviewer resolution excludes Builder's
-model and family. Its dry-run JSON includes assigned harness/model and the
-full resolution evidence; unavailable roles block apply/execute. Keep Reviewer
+model and family. Its dry-run JSON includes assigned harness/model/effort and
+the full resolution evidence; unavailable roles block apply/execute. Keep Reviewer
 in an isolated read-only worker context.
 
 When launching Orca workers, inspect the installed runtime's version-matched
 orchestration guide and pass the resolved harness/model using supported
-agent/model flags. A CLI-only harness requires a bound terminal rather than
-an unsupported agent flag. Reconcile errors after execution starts explicitly;
-only pre-dispatch checks may traverse candidates automatically.
+agent/model flags (and `--effort <target.effort>` when configured). A CLI-only
+harness requires a bound terminal rather than an unsupported agent flag. Reconcile
+errors after execution starts explicitly; only pre-dispatch checks may traverse
+candidates automatically.
 
 ## Audit and recovery
 

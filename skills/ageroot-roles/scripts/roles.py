@@ -175,11 +175,16 @@ def parse_config(text: str, source: str = '<string>') -> dict:
         if not isinstance(targets, list):
             fail(number, f'{role}.targets must be a list')
         for target in targets:
-            shape(target, ('harness', 'model'), 'candidate', number)
+            if not isinstance(target, dict) or not ({'harness', 'model'}.issubset(target) and set(target).issubset({'harness', 'model', 'effort'})):
+                fail(number, 'candidate must contain harness, model, and optional effort')
             for key in ('harness', 'model'):
                 value = target[key]
                 if not isinstance(value, str) or not value.strip() or value != value.strip() or any(ord(c) < 32 for c in value):
                     fail(positions[id(target)][key], f'{key} must be a nonempty string')
+            if 'effort' in target:
+                value = target['effort']
+                if not isinstance(value, str) or not value.strip() or value != value.strip() or any(ord(c) < 32 for c in value):
+                    fail(positions[id(target)]['effort'], 'effort must be a nonempty string')
             if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', target['harness']):
                 fail(positions[id(target)]['harness'], 'harness must be a PATH binary name')
     return data
@@ -277,6 +282,8 @@ def dump_config(roles: dict) -> str:
             for target in targets:
                 lines.extend([f'      - harness: {json.dumps(target["harness"])}',
                               f'        model: {json.dumps(target["model"])}'])
+                if 'effort' in target and target['effort'] is not None:
+                    lines.append(f'        effort: {json.dumps(target["effort"])}')
     return '\n'.join(lines) + '\n'
 
 
@@ -349,7 +356,10 @@ def main(argv=None) -> int:
             else:
                 print(f'{"ROLE":<14} {"LAYER":<8} TARGETS (in priority order)')
                 for role, config in active.items():
-                    targets = ', '.join(f'{t["harness"]}/{t["model"]} [{readiness(t)}]' for t in config['targets'])
+                    targets = ', '.join(
+                        f'{t["harness"]}/{t["model"]}' + (f' (effort: {t["effort"]})' if t.get('effort') else '') + f' [{readiness(t)}]'
+                        for t in config['targets']
+                    )
                     print(f'{role:<14} {config["layer"]:<8} {targets or "disabled"}')
         return 0
     except (ConfigError, OSError, EOFError) as error:
