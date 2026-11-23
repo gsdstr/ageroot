@@ -72,6 +72,17 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertFalse(clean)
         self.assertTrue(any("unexpected: .agents/protocols/unexpected.txt" in d for d in drift))
 
+        # Removing unexpected file and restoring tampered file
+        unexpected.unlink()
+        target_file.write_text((self.repo_root / "templates/core/.agents/rules/rtk-rules.md").read_text(encoding="utf-8"))
+
+        # Modifying .agents/ageroot.config.yaml with local project settings is NOT drift
+        cfg_path = export_dir / ".agents" / "ageroot.config.yaml"
+        cfg_path.write_text("schema: 1\nproject:\n  name: catacombs\ntemplate:\n  repo_root: /some/path\n")
+        clean, drift = service.check_drift(target_dir=export_dir)
+        self.assertTrue(clean)
+        self.assertEqual(drift, [])
+
     def legacy_consumer(self):
         """Seed a genuine baseline-backed old installation without old sources."""
         service = DistributionService(repo_root=self.repo_root)

@@ -52,7 +52,7 @@ def is_valid_repo_root(p: Path) -> bool:
 
 
 def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
-    """Resolves the canonical Ageroot monorepo root across CLI, env, config, and cache."""
+    """Resolves the canonical Ageroot monorepo root across CLI, env, config, siblings, workspaces, and cache."""
     # 1. Explicit CLI argument (if not default or if valid)
     if cli_arg and cli_arg != Path("."):
         resolved = cli_arg.resolve()
@@ -63,36 +63,86 @@ def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
     if is_valid_repo_root(target_dir):
         return target_dir.resolve()
 
-    # 3. Development root relative to this script
-    script_repo = SCRIPT_DIR.parent.parent.parent
-    if is_valid_repo_root(script_repo):
-        return script_repo.resolve()
+    # 3. Upward search from script location (catches development checkouts)
+    for parent in [SCRIPT_DIR] + list(SCRIPT_DIR.parents):
+        if is_valid_repo_root(parent):
+            return parent.resolve()
 
-    # 4. Environment variable AGEROOT_REPO_ROOT
+    # 4. Sibling directories relative to target directory and script directory
+    sibling_candidates = [
+        target_dir.parent / "ageroot",
+        target_dir.parent.parent / "ageroot",
+        SCRIPT_DIR.parent.parent.parent.parent / "ageroot",
+        SCRIPT_DIR.parent.parent.parent.parent.parent / "ageroot",
+    ]
+    for sib in sibling_candidates:
+        if sib.exists() and is_valid_repo_root(sib):
+            return sib.resolve()
+
+    # 5. Environment variable AGEROOT_REPO_ROOT
     env_root = os.environ.get("AGEROOT_REPO_ROOT")
     if env_root:
         env_path = Path(env_root).expanduser().resolve()
         if is_valid_repo_root(env_path):
             return env_path
 
-    # 5. Config file .agents/ageroot.config.yaml
-    cfg_file = target_dir / ".agents" / "ageroot.config.yaml"
-    if cfg_file.exists():
-        try:
-            cfg = SimpleYamlHelper.parse(cfg_file.read_text(encoding="utf-8"))
-            if isinstance(cfg, dict):
-                tmpl_cfg = cfg.get("template", {})
-                if isinstance(tmpl_cfg, dict) and "repo_root" in tmpl_cfg:
-                    cfg_path = Path(tmpl_cfg["repo_root"]).expanduser().resolve()
-                    if is_valid_repo_root(cfg_path):
-                        return cfg_path
-        except Exception:
-            pass
+    # 6. Config file .agents/ageroot.config.yaml or state file
+    for meta_file in (target_dir / ".agents" / "ageroot.config.yaml", target_dir / ".agents" / "ageroot.state.yaml"):
+        if meta_file.exists():
+            try:
+                data = SimpleYamlHelper.parse(meta_file.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    tmpl = data.get("template", {})
+                    if isinstance(tmpl, dict) and "repo_root" in tmpl:
+                        cfg_path = Path(tmpl["repo_root"]).expanduser().resolve()
+                        if is_valid_repo_root(cfg_path):
+                            return cfg_path
+            except Exception:
+                pass
 
-    # 6. APM cache search
+    # 7. Global user config (~/.config/ageroot/config.yaml or roles.yaml)
+    global_cfg_dirs = [
+        Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "ageroot",
+        Path.home() / ".config" / "ageroot",
+    ]
+    for gcd in global_cfg_dirs:
+        for fname in ("config.yaml", "roles.yaml"):
+            gfile = gcd / fname
+            if gfile.exists():
+                try:
+                    data = SimpleYamlHelper.parse(gfile.read_text(encoding="utf-8"))
+                    if isinstance(data, dict):
+                        tmpl = data.get("template", {})
+                        root_val = tmpl.get("repo_root") if isinstance(tmpl, dict) else data.get("template_repo_root")
+                        if root_val:
+                            g_path = Path(root_val).expanduser().resolve()
+                            if is_valid_repo_root(g_path):
+                                return g_path
+                except Exception:
+                    pass
+
+    # 8. Standard developer workspace paths
+    home = Path.home()
+    workspace_candidates = [
+        home / "hub" / "0_efforts" / "ageroot",
+        home / "projects" / "ageroot",
+        home / "code" / "ageroot",
+        home / "src" / "ageroot",
+        home / "dev" / "ageroot",
+        home / "workspace" / "ageroot",
+        home / "work" / "ageroot",
+        home / "repos" / "ageroot",
+        home / ".local" / "share" / "ageroot",
+    ]
+    for cand in workspace_candidates:
+        if cand.exists() and is_valid_repo_root(cand):
+            return cand.resolve()
+
+    # 9. APM cache search across platform locations
     apm_cache_dirs = [
-        Path.home() / "Library" / "Caches" / "apm" / "git" / "checkouts_v1",
-        Path.home() / ".cache" / "apm" / "git" / "checkouts_v1",
+        home / "Library" / "Caches" / "apm" / "git" / "checkouts_v1",
+        home / ".cache" / "apm" / "git" / "checkouts_v1",
+        Path(os.environ.get("XDG_CACHE_HOME", home / ".cache")) / "apm" / "git" / "checkouts_v1",
     ]
     for cache_root in apm_cache_dirs:
         if cache_root.exists():
@@ -101,12 +151,28 @@ def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
                 if is_valid_repo_root(candidate):
                     return candidate.resolve()
 
-    # 7. Local template cache ~/.cache/ageroot/templates
-    user_cache = Path.home() / ".cache" / "ageroot" / "templates"
-    if is_valid_repo_root(user_cache):
-        return user_cache.resolve()
+    # 10. System cache directories (XDG_CACHE_HOME, macOS ~/Library/Caches, ~/.cache)
+    cache_dirs = [
+        home / ".cache" / "ageroot" / "templates",
+        home / "Library" / "Caches" / "ageroot" / "templates",
+        Path(os.environ.get("XDG_CACHE_HOME", home / ".cache")) / "ageroot" / "templates",
+        Path(os.environ.get("XDG_DATA_HOME", home / ".local" / "share")) / "ageroot" / "templates",
+    ]
+    for cdir in cache_dirs:
+        if is_valid_repo_root(cdir):
+            if (cdir / ".git").is_dir() and not cdir.is_symlink():
+                try:
+                    subprocess.run(
+                        ["git", "-C", str(cdir), "pull", "--ff-only"],
+                        capture_output=True,
+                        timeout=5,
+                    )
+                except Exception:
+                    pass
+            return cdir.resolve()
 
-    # 8. Automatic shallow clone if git and source are available
+    # 11. Automatic shallow clone if git and source are available
+    primary_cache = Path(os.environ.get("XDG_CACHE_HOME", home / ".cache")) / "ageroot" / "templates"
     source_url = "https://github.com/gsdstr/ageroot.git"
     state_file = target_dir / ".agents" / "ageroot.state.yaml"
     if state_file.exists():
@@ -122,26 +188,28 @@ def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
             pass
 
     try:
-        user_cache.parent.mkdir(parents=True, exist_ok=True)
+        primary_cache.parent.mkdir(parents=True, exist_ok=True)
         print(f"Fetching canonical Ageroot templates from {source_url}...", file=sys.stderr)
         res = subprocess.run(
-            ["git", "clone", "--depth", "1", source_url, str(user_cache)],
+            ["git", "clone", "--depth", "1", source_url, str(primary_cache)],
             capture_output=True,
             text=True,
             timeout=45,
         )
-        if res.returncode == 0 and is_valid_repo_root(user_cache):
-            return user_cache.resolve()
+        if res.returncode == 0 and is_valid_repo_root(primary_cache):
+            return primary_cache.resolve()
     except Exception as err:
         print(f"Warning: automatic template clone failed: {err}", file=sys.stderr)
 
-    # 9. Fallback failure with actionable instructions
+    # 12. Fallback failure with actionable instructions
     print(
         "Error: Cannot locate Ageroot templates (templates/core/).\n"
         "In a consuming project, please supply the template repository root via:\n"
         "  1. CLI option:           --repo-root /path/to/ageroot\n"
         "  2. Environment variable: AGEROOT_REPO_ROOT=/path/to/ageroot\n"
-        "  3. Configuration:        template.repo_root in .agents/ageroot.config.yaml",
+        "  3. Configuration:        template.repo_root in .agents/ageroot.config.yaml\n"
+        "  4. Sibling clone:        Clone ageroot beside your project repository\n"
+        "  5. Global config:        template_repo_root in ~/.config/ageroot/config.yaml",
         file=sys.stderr,
     )
     sys.exit(1)

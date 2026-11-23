@@ -78,6 +78,13 @@ class DistributionService:
                                 continue
                         if rel_path == ".agents/PREFERENCES.md":
                             continue
+                        if rel_path == ".agents/ageroot.config.yaml":
+                            try:
+                                parsed_cfg = SimpleYamlHelper.parse(actual_content)
+                                if isinstance(parsed_cfg, dict):
+                                    continue
+                            except Exception:
+                                pass
                         drift.append(f"modified: {rel_path}")
                 except Exception as ex:
                     drift.append(f"read-error: {rel_path} ({ex})")
