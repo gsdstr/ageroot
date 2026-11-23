@@ -3,7 +3,7 @@ roles:
   coordinator:
     targets:
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
       - harness: opencode
         model: gemini-3.8-flash
@@ -17,7 +17,7 @@ roles:
   researcher:
     targets:
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
       - harness: opencode
         model: gemini-3.8-flash
@@ -34,7 +34,7 @@ roles:
         model: gpt-6.2-sol
         effort: high
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
       - harness: opencode
         model: gemini-3.8-flash
@@ -42,7 +42,7 @@ roles:
   builder:
     targets:
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
       - harness: codex
         model: gpt-6.2-sol
@@ -59,12 +59,12 @@ roles:
         model: qwen-2.5-coder
         effort: high
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
   integrator:
     targets:
       - harness: agy
-        model: gemini-3.8-flash-high
+        model: gemini-3.8-flash
         effort: high
       - harness: codex
         model: gpt-6.2-sol

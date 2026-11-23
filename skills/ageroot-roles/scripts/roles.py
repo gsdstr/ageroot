@@ -15,7 +15,7 @@ ROLES = ('coordinator', 'researcher', 'author', 'builder', 'reviewer', 'integrat
 HARNESSES = ('agy', 'codex', 'claude', 'orca', 'hermes')
 # Defaults are preferences, not claims of subscription/model availability.
 DEFAULT_MODELS = {
-    'agy': 'gemini-3.8-flash-high',
+    'agy': 'gemini-3.8-flash',
     'codex': 'gpt-5.6-sol',
     'claude': 'claude-sonnet-4-6',
     'orca': 'default',
