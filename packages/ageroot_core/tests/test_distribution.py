@@ -85,11 +85,17 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertEqual(drift, [])
 
         # Malformed .agents/ageroot.config.yaml MUST be detected as drift
-        for bad_cfg in ("", "THIS IS NOT YAML\n", "project: [unterminated\n"):
+        for bad_cfg in ("", "THIS IS NOT YAML\n", "project: [unterminated\n", "schema: 1\nTHIS IS NOT YAML\n"):
             cfg_path.write_text(bad_cfg)
             clean, drift = service.check_drift(target_dir=export_dir)
             self.assertFalse(clean, f"Expected drift for malformed config: {bad_cfg!r}")
             self.assertTrue(any("modified: .agents/ageroot.config.yaml" in d for d in drift))
+
+        # Valid configs with brackets in scalar values must NOT be detected as drift
+        cfg_path.write_text("schema: 1\ntemplate:\n  repo_root: /tmp/checkout[\n")
+        clean, drift = service.check_drift(target_dir=export_dir)
+        self.assertTrue(clean)
+        self.assertEqual(drift, [])
 
         # Restoring valid config
         cfg_path.write_text("schema: 1\nproject:\n  name: catacombs\n")

@@ -28,8 +28,24 @@ def is_valid_ageroot_config(content: str) -> bool:
     """Validates that ageroot.config.yaml has valid YAML structure and required schema."""
     if not content or not content.strip():
         return False
-    if content.count("[") != content.count("]") or content.count("{") != content.count("}"):
+    
+    has_valid_pair = False
+    for raw_line in content.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("- "):
+            continue
+        if ":" not in line:
+            return False
+        key = line.split(":", 1)[0].strip()
+        if not key or " " in key:
+            return False
+        has_valid_pair = True
+
+    if not has_valid_pair:
         return False
+
     try:
         cfg = SimpleYamlHelper.parse(content)
         if not isinstance(cfg, dict):
