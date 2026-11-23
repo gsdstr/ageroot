@@ -34,13 +34,26 @@ def is_valid_ageroot_config(content: str) -> bool:
         line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
-        if line.startswith("- "):
-            continue
+        # ageroot.config.yaml is a top-level mapping, not a sequence
+        if raw_line.startswith("- ") or line.startswith("- "):
+            return False
         if ":" not in line:
             return False
-        key = line.split(":", 1)[0].strip()
+        key, val = line.split(":", 1)
+        key = key.strip()
+        val = val.strip()
         if not key or " " in key:
             return False
+        # Validate flow sequence/mapping and quotes on values
+        if val:
+            if val.startswith("[") and not val.endswith("]"):
+                return False
+            if val.startswith("{") and not val.endswith("}"):
+                return False
+            if val.startswith('"') and (len(val) < 2 or not val.endswith('"')):
+                return False
+            if val.startswith("'") and (len(val) < 2 or not val.endswith("'")):
+                return False
         has_valid_pair = True
 
     if not has_valid_pair:
