@@ -4,38 +4,52 @@ roles:
     targets:
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
       - harness: opencode
         model: gemini-3.8-flash
+        effort: high
       - harness: hermes
         model: gemini-3.8-flash
+        effort: high
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
   researcher:
     targets:
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
       - harness: opencode
         model: gemini-3.8-flash
+        effort: high
       - harness: hermes
         model: gemini-3.8-flash
+        effort: high
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
   author:
     targets:
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
       - harness: opencode
         model: gemini-3.8-flash
+        effort: high
   builder:
     targets:
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
       - harness: opencode
         model: gemini-3.8-flash
+        effort: high
   reviewer:
     targets:
       - harness: codex
@@ -43,13 +57,18 @@ roles:
         effort: high
       - harness: opencode
         model: qwen-2.5-coder
+        effort: high
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
   integrator:
     targets:
       - harness: agy
         model: gemini-3.8-flash-high
+        effort: high
       - harness: codex
         model: gpt-6.2-sol
+        effort: high
       - harness: opencode
         model: gemini-3.8-flash
+        effort: high

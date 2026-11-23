@@ -69,10 +69,12 @@ def main() -> int:
             if reason:
                 resolution.update(status='unavailable', target=None, candidate_index=None, reason=reason)
         target = resolution.get('target') or {}
+        harness = target.get('harness')
         tasks.append({
             'phase': phase,
             'role': role.title(),
-            'assigned_harness': target.get('harness'),
+            'assigned_harness': harness,
+            'assigned_agent': 'antigravity' if harness == 'agy' else harness,
             'assigned_model': target.get('model'),
             'assigned_effort': target.get('effort'),
             'resolution': resolution,

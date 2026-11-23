@@ -69,10 +69,15 @@ in an isolated read-only worker context.
 
 When launching Orca workers, inspect the installed runtime's version-matched
 orchestration guide and pass the resolved harness/model using supported
-agent/model flags (and `--effort <target.effort>` when configured). A CLI-only
-harness requires a bound terminal rather than an unsupported agent flag. Reconcile
-errors after execution starts explicitly; only pre-dispatch checks may traverse
-candidates automatically.
+agent/model flags (and `--effort <target.effort>` when configured):
+- `codex`: `--agent codex --model <model> --effort <effort>`
+- `agy`: `--agent antigravity --model <model> --effort <effort>` (Orca passes `--effort` to `agy`)
+- `hermes`: `--agent hermes` (reasoning effort via `--reasoning <effort>` or `agent.reasoning_effort` config)
+- `opencode`: `--agent opencode --model <model>` (reasoning variant / thinking options)
+
+A CLI-only harness requires a bound terminal rather than an unsupported agent flag.
+Reconcile errors after execution starts explicitly; only pre-dispatch checks may
+traverse candidates automatically.
 
 ## Audit and recovery
 
