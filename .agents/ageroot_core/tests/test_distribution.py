@@ -103,6 +103,12 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertTrue(clean)
         self.assertEqual(drift, [])
 
+        # Valid configs with quoted values and inline comments must NOT be detected as drift
+        cfg_path.write_text('schema: 1\ntemplate:\n  repo_root: "/tmp/checkout" # inline comment\n')
+        clean, drift = service.check_drift(target_dir=export_dir)
+        self.assertTrue(clean)
+        self.assertEqual(drift, [])
+
         # Restoring valid config
         cfg_path.write_text("schema: 1\nproject:\n  name: catacombs\n")
         clean, drift = service.check_drift(target_dir=export_dir)

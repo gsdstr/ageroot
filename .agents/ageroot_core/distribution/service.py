@@ -23,6 +23,24 @@ from ageroot_core.comparison import (
 )
 from ageroot_core.distribution.collector import collect_payload, is_ignored_file
 
+def strip_yaml_comment(text: str) -> str:
+    """Strips comments from a YAML line while preserving quoted content."""
+    in_quotes = False
+    quote_char = None
+    comment_idx = -1
+    for i, ch in enumerate(text):
+        if ch in ('"', "'"):
+            if not in_quotes:
+                in_quotes = True
+                quote_char = ch
+            elif quote_char == ch:
+                in_quotes = False
+        elif ch == "#" and not in_quotes:
+            comment_idx = i
+            break
+    return text[:comment_idx].rstrip() if comment_idx != -1 else text.rstrip()
+
+
 def is_valid_ageroot_config(content: str) -> bool:
     """Validates that ageroot.config.yaml has valid YAML structure and required schema."""
     if not content or not content.strip():
@@ -30,11 +48,12 @@ def is_valid_ageroot_config(content: str) -> bool:
     
     has_valid_pair = False
     for raw_line in content.splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#"):
+        clean_line = strip_yaml_comment(raw_line)
+        line = clean_line.strip()
+        if not line:
             continue
         # ageroot.config.yaml is a top-level mapping, not a sequence
-        if raw_line.startswith("- ") or line.startswith("- "):
+        if clean_line.startswith("- ") or line.startswith("- "):
             return False
         if ":" not in line:
             return False
