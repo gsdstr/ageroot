@@ -21,8 +21,11 @@ POSSIBLE_PACKAGE_ROOTS = [
 ]
 
 for p in POSSIBLE_PACKAGE_ROOTS:
-    if p.exists() and str(p) not in sys.path:
+    if (p / "ageroot_core" / "__init__.py").is_file():
+        if str(p) in sys.path:
+            sys.path.remove(str(p))
         sys.path.insert(0, str(p))
+        break
 
 try:
     from ageroot_core.comparison import (

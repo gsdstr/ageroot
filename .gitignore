@@ -12,3 +12,6 @@ apm_modules/
 
 __pycache__/
 *.pyc
+
+# Workspace role routing preferences
+.agents/roles.local.yaml

@@ -86,7 +86,9 @@ class DistributionService:
 
         # Check for unexpected files in managed prefixes
         managed_prefixes = [
-            ".agents/orchestration",
+            ".agents/orchestration",  # Retired: report stale installs as drift.
+            ".agents/skills/ageroot-orchestrate",
+            ".agents/skills/ageroot-roles",
             ".agents/ageroot_core",
             ".agents/protocols",
             ".agents/rules",

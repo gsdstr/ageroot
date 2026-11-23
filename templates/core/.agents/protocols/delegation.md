@@ -8,7 +8,7 @@ Rules for splitting work while preserving ownership, provenance, and plan state.
 |---|---|---|
 | Ownership transfers; parent does not wait | Full handoff | `orca-cli`; deliver prompt, then stop monitoring |
 | Parent supervises workers, waits for results, coordinates dependencies or decisions | Supervised orchestration | `orchestration`; Run → Task → Dispatch → `worker_done` |
-| End-to-end task lifecycle across multiple phases, roles, and gates | Neutral orchestration | `protocols/orchestration.md`; `.agents/orchestration/manifest.yaml` → phases → lifecycle map → Owner gates |
+| End-to-end task lifecycle across multiple phases, roles, and gates | Neutral orchestration | `/ageroot-orchestrate`; manifest → phases → lifecycle map → Owner gates |
 | One bounded analysis/coding task without Orca state | Local delegation | Harness-native sub-agent tool, subject to its policy |
 
 Words such as “handoff”, “give to another agent”, or “another worktree” mean
@@ -18,6 +18,10 @@ obligation unless supervision was explicitly requested.
 If Orca orchestration was requested, use Orca only. Confirm `orca status --json`,
 load `orca skills get orchestration`, and stop on runtime or feature failure; do
 not silently replace it with another delegation mechanism.
+
+Role routing uses `/ageroot-roles` to resolve canonical roles through workspace
+and user preferences. Lifecycle, budgets, gates, and independent review belong
+to `/ageroot-orchestrate`; resolve targets before dispatch.
 
 ## When to delegate
 - Independent work can proceed without overlapping writes.

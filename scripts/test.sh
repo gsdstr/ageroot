@@ -8,8 +8,10 @@ echo "=== 1. Ageroot Core & Distribution Tests ==="
 PYTHONPATH=packages python3 -m unittest discover -s packages/ageroot_core/tests -v
 
 echo ""
-echo "=== 2. Orchestration Package Sync Check ==="
+echo "=== 2. Orchestration and Role Skills ==="
 python3 scripts/sync-orchestration-package.py --check
+python3 -m unittest discover -s skills/ageroot-orchestrate/tests -v
+python3 -m unittest discover -s skills/ageroot-roles/tests -v
 
 echo ""
 echo "=== 3. Memory Skills Lifecycle & Concurrency Tests ==="

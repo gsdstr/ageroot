@@ -6,6 +6,8 @@ dependencies:
   apm:
     # First-party monorepo skills (local dev)
     - ./skills/ageroot
+    - ./skills/ageroot-orchestrate
+    - ./skills/ageroot-roles
     - ./skills/memory-manager
     - ./skills/memory-maintenance
     # Core & workflow skills

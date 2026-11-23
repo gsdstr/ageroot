@@ -5,15 +5,23 @@ import argparse
 import json
 from pathlib import Path
 import subprocess
+import sys
 
 PHASES = ["intake", "research-planning", "implementation", "review-integration"]
 
-DEFAULT_PHASE_ROLES = {
-    "intake": {"role": "Coordinator", "harness": "agy"},
-    "research-planning": {"role": "Researcher", "harness": "agy"},
-    "implementation": {"role": "Builder", "harness": "agy"},
-    "review-integration": {"role": "Reviewer", "harness": "codex"},
-}
+PHASE_ROLES = dict(zip(PHASES, ('coordinator', 'researcher', 'builder', 'reviewer')))
+ROLES_SCRIPT = Path(__file__).resolve().parents[2] / 'ageroot-roles/scripts/roles.py'
+
+
+def resolve_role(role, workspace, builder=None):
+    command = [sys.executable, str(ROLES_SCRIPT), 'resolve', role]
+    if workspace is not None:
+        command.extend(['--workspace', str(workspace)])
+    if role == 'reviewer' and builder and builder['status'] == 'resolved':
+        command.extend(['--exclude-model', builder['target']['model'],
+                        '--exclude-family', builder['family']])
+    return json.loads(subprocess.check_output(command, text=True))
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -23,7 +31,7 @@ def main() -> int:
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--start-approved", action="store_true")
-    parser.add_argument("--role-harness-override", help="JSON string of role:harness overrides")
+    parser.add_argument("--workspace", "--root", type=Path)
     args = parser.parse_args()
     if args.mode != "orca":
         parser.error("adapter requires --mode orca")
@@ -42,22 +50,41 @@ def main() -> int:
         "900000",
         "--json",
     ]
-    harness_overrides = json.loads(args.role_harness_override) if args.role_harness_override else {}
     tasks = []
+    builder = None
     for index, phase in enumerate(PHASES):
-        role_info = DEFAULT_PHASE_ROLES[phase]
-        role = role_info["role"]
-        harness = harness_overrides.get(role, role_info["harness"])
+        role = PHASE_ROLES[phase]
+        try:
+            resolution = resolve_role(role, args.workspace, builder)
+        except (OSError, subprocess.CalledProcessError, ValueError) as error:
+            parser.error(f'role resolution failed for {role}: {error}')
+        if role == 'builder':
+            builder = resolution
+        if role == 'reviewer':
+            reason = None
+            if not builder or builder['status'] != 'resolved':
+                reason = 'builder-unavailable-for-independence'
+            elif builder['family'] == 'unknown':
+                reason = 'builder-family-unverified'
+            if reason:
+                resolution.update(status='unavailable', target=None, candidate_index=None, reason=reason)
+        target = resolution.get('target') or {}
         tasks.append({
-            "phase": phase,
-            "role": role,
-            "assigned_harness": harness,
-            "depends_on": PHASES[index - 1:index],
+            'phase': phase,
+            'role': role.title(),
+            'assigned_harness': target.get('harness'),
+            'assigned_model': target.get('model'),
+            'resolution': resolution,
+            'depends_on': PHASES[index - 1:index],
         })
+    blocked = any(task['resolution']['status'] != 'resolved' for task in tasks)
+    if blocked and (args.apply or args.execute):
+        parser.error('role routing unavailable; inspect dry-run resolution traces before dispatch')
     plan = {
         "mode": "execute-plan" if args.execute else "apply" if args.apply else "dry-run",
         "run": {"owner_task": args.plan_id},
         "tasks": tasks,
+        "routing_status": "unavailable" if blocked else "resolved",
         "decision_tasks": ["Start", "Plan-to-Build", "Final Acceptance"],
         "audit": {"run_map": f"{audit}/run-map.json", "decision_packets": f"{audit}/decision-packets/"},
         "coordinator_wait_loop": wait_loop_command,

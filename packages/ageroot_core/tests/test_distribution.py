@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ageroot_core.comparison import AgerootUpdateEngine, DryRunOptions, ResultClass, Strategy
+from ageroot_core.comparison import AgerootUpdateEngine, DeterministicNormalizer, DryRunOptions, ResultClass, SimpleYamlHelper, SnapshotStore, Strategy
 from ageroot_core.distribution.collector import collect_payload
 from ageroot_core.distribution.manifest import get_default_components
 from ageroot_core.distribution.service import DistributionService
@@ -26,8 +26,13 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertGreater(len(renders), 30)
         self.assertIn("AGENTS.md", renders)
         self.assertIn(".agents/AGENTS.md", renders)
-        self.assertIn(".agents/orchestration/manifest.yaml", renders)
-        self.assertIn(".agents/orchestration/orca/adapter.py", renders)
+        self.assertIn(".agents/skills/ageroot-orchestrate/manifest.yaml", renders)
+        self.assertIn(".agents/skills/ageroot-orchestrate/orca/adapter.py", renders)
+        self.assertIn(".agents/skills/ageroot-roles/scripts/roles.py", renders)
+        self.assertIn(".agents/.gitignore", renders)
+        self.assertNotIn("orchestration", get_default_components())
+        self.assertNotIn("orca_adapter", get_default_components())
+        self.assertFalse(any(p.startswith(".agents/orchestration/") for p in renders))
         # Memory is opt-in, so not present in default
         self.assertNotIn(".agents/skills/memory-manager/SKILL.md", renders)
 
@@ -36,7 +41,7 @@ class DistributionModuleTests(unittest.TestCase):
             self.assertFalse(entry["path"].endswith("/"))
 
     def test_opt_in_memory_component(self):
-        renders, _ = collect_payload(self.repo_root, selected_components=["core", "orchestration", "orca_adapter", "memory"])
+        renders, _ = collect_payload(self.repo_root, selected_components=["core", "ageroot-orchestrate", "ageroot-roles", "memory"])
         self.assertIn(".agents/skills/memory-manager/SKILL.md", renders)
         self.assertIn(".agents/skills/memory-maintenance/SKILL.md", renders)
 
@@ -67,6 +72,67 @@ class DistributionModuleTests(unittest.TestCase):
         clean, drift = service.check_drift(target_dir=export_dir)
         self.assertFalse(clean)
         self.assertTrue(any("unexpected: .agents/protocols/unexpected.txt" in d for d in drift))
+
+    def legacy_consumer(self):
+        """Seed a genuine baseline-backed old installation without old sources."""
+        service = DistributionService(repo_root=self.repo_root)
+        target = self.temp_dir / "legacy"
+        service.export_payload(target, components=["core"])
+        state_path = target / ".agents/ageroot.state.yaml"
+        state = SimpleYamlHelper.parse(state_path.read_text())
+        for relative in (".agents/orchestration/manifest.yaml",
+                         ".agents/orchestration/orca/adapter.py",
+                         ".agents/protocols/orchestration.md"):
+            content = "legacy managed content\n"
+            path = target / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content)
+            snapshot = ".agents/snapshots/" + relative
+            snapshot_path = target / snapshot
+            snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+            snapshot_path.write_text(content)
+            state["managed_files"].append({"path": relative, "strategy": "generated",
+                                          "snapshot": snapshot,
+                                          "sha256": SnapshotStore.compute_sha256(content)})
+        state_path.write_text(SimpleYamlHelper.dump(state))
+        return service, target
+
+    def test_legacy_state_migrates_through_standard_engine(self):
+        service, target = self.legacy_consumer()
+        local = target / ".agents/roles.local.yaml"
+        local.write_text("user-owned role preferences\n")
+        clean, drift = service.check_drift(target)
+        self.assertFalse(clean)
+        self.assertTrue(any("unexpected: .agents/orchestration/" in d for d in drift))
+        report, outcome = service.sync_local(target, allow_deletions=True)
+        self.assertTrue(outcome.success, outcome.error)
+        state = SimpleYamlHelper.parse((target / ".agents/ageroot.state.yaml").read_text())
+        paths = {entry["path"] for entry in state["managed_files"]}
+        self.assertIn(".agents/skills/ageroot-roles/scripts/roles.py", paths)
+        self.assertIn(".agents/skills/ageroot-orchestrate/orca/adapter.py", paths)
+        self.assertIn(".agents/.gitignore", paths)
+        self.assertIn("roles.local.yaml", (target / ".agents/.gitignore").read_text())
+        self.assertFalse(any(p.startswith(".agents/orchestration/") for p in paths))
+        self.assertNotIn(".agents/protocols/orchestration.md", paths)
+        self.assertNotIn(".agents/roles.local.yaml", paths)
+        self.assertEqual(local.read_text(), "user-owned role preferences\n")
+        self.assertEqual(service.check_drift(target), (True, []))
+
+    def test_legacy_deletions_still_require_confirmation(self):
+        service, target = self.legacy_consumer()
+        report, outcome = service.sync_local(target)
+        self.assertFalse(outcome.success)
+        self.assertTrue((target / ".agents/orchestration/manifest.yaml").exists())
+
+    def test_modified_legacy_file_blocks_atomic_migration(self):
+        service, target = self.legacy_consumer()
+        legacy = target / ".agents/orchestration/manifest.yaml"
+        legacy.write_text("locally modified legacy data\n")
+        report, outcome = service.sync_local(target, allow_deletions=True)
+        self.assertFalse(outcome.success)
+        self.assertEqual(legacy.read_text(), "locally modified legacy data\n")
+        self.assertFalse((target / ".agents/skills/ageroot-roles").exists())
+
 
     def test_update_engine_dry_run_with_renders(self):
         service = DistributionService(repo_root=self.repo_root)

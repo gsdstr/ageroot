@@ -67,6 +67,24 @@ subscription or provider models, invocation surfaces, context limits, and
 fallback paths.
 _Avoid_: model catalog, model list
 
+**Role routing**:
+The dynamic resolution of canonical agent roles to concrete harness execution
+targets and models based on the role configuration hierarchy.
+_Avoid_: model switching, harness mapping
+
+**Role configuration hierarchy**:
+The layered resolution precedence for role routing:
+1. Workspace local override (`.agents/roles.local.yaml`, git-ignored)
+2. Workspace team baseline (`.agents/roles.yaml`, tracked in git)
+3. User global preference (`~/.config/ageroot/roles.yaml`)
+4. Skill fallback defaults.
+_Avoid_: config waterfall, settings cascade
+
+**Role target priority**:
+An ordered list of candidate execution targets (`targets: [{harness, model}]`)
+evaluated in sequence for a role until an available harness and model are found.
+_Avoid_: fallback list, model chain
+
 **Budget warning**:
 A Coordinator report raised when any finite orchestration-budget dimension
 reaches 80% of its planned limit. Work continues while the Owner receives

@@ -50,7 +50,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--components",
         type=str,
         default=None,
-        help="Comma-separated component list (e.g. 'core,orchestration,orca_adapter,memory')",
+        help="Comma-separated component list (e.g. 'core,ageroot-orchestrate,ageroot-roles,memory')",
     )
     parser.add_argument(
         "--allow-deletions",

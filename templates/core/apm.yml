@@ -6,6 +6,8 @@ dependencies:
   apm:
     # First-party Ageroot skills (remote)
     - gsdstr/ageroot/skills/ageroot
+    - gsdstr/ageroot/skills/ageroot-orchestrate
+    - gsdstr/ageroot/skills/ageroot-roles
     - gsdstr/ageroot/skills/memory-manager
     - gsdstr/ageroot/skills/memory-maintenance
     # Core & workflow skills
