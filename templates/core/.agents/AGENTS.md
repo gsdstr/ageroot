@@ -49,7 +49,7 @@ This folder is portable Ageroot instructions. Any harness (Claude Code, Cursor, 
 - Owner selects `mode: orca` or `mode: neutral` in a request; explicit request
   mode overrides this default.
 - Use `/ageroot-orchestrate` and `/ageroot-roles`. Read
-  `skills/ageroot-orchestrate/orca/RUNBOOK.md` before using Orca mode. Do not invoke
+  `.agents/skills/ageroot-orchestrate/orca/RUNBOOK.md` before using Orca mode. Do not invoke
   Orca for a neutral task.
 
 ## Skill: planning-with-files (when available)
