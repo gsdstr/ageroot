@@ -23,6 +23,29 @@ from ageroot_core.comparison import (
 )
 from ageroot_core.distribution.collector import collect_payload, is_ignored_file
 
+def is_valid_ageroot_config(content: str) -> bool:
+    """Validates that ageroot.config.yaml has valid YAML structure and required schema."""
+    if not content or not content.strip():
+        return False
+    if content.count("[") != content.count("]") or content.count("{") != content.count("}"):
+        return False
+    try:
+        cfg = SimpleYamlHelper.parse(content)
+        if not isinstance(cfg, dict):
+            return False
+        if not isinstance(cfg.get("schema"), int):
+            return False
+        if "project" in cfg and not isinstance(cfg["project"], dict):
+            return False
+        if "template" in cfg and not isinstance(cfg["template"], dict):
+            return False
+        if "agent" in cfg and not isinstance(cfg["agent"], dict):
+            return False
+        return True
+    except Exception:
+        return False
+
+
 def get_git_commit(repo_root: Path) -> str:
     """Gets short git commit hash or 'unknown'."""
     try:
@@ -79,12 +102,8 @@ class DistributionService:
                         if rel_path == ".agents/PREFERENCES.md":
                             continue
                         if rel_path == ".agents/ageroot.config.yaml":
-                            try:
-                                parsed_cfg = SimpleYamlHelper.parse(actual_content)
-                                if isinstance(parsed_cfg, dict):
-                                    continue
-                            except Exception:
-                                pass
+                            if is_valid_ageroot_config(actual_content):
+                                continue
                         drift.append(f"modified: {rel_path}")
                 except Exception as ex:
                     drift.append(f"read-error: {rel_path} ({ex})")

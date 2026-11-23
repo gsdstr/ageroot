@@ -92,9 +92,14 @@ def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
             try:
                 data = SimpleYamlHelper.parse(meta_file.read_text(encoding="utf-8"))
                 if isinstance(data, dict):
-                    tmpl = data.get("template", {})
-                    if isinstance(tmpl, dict) and "repo_root" in tmpl:
-                        cfg_path = Path(tmpl["repo_root"]).expanduser().resolve()
+                    root_val = None
+                    tmpl = data.get("template")
+                    if isinstance(tmpl, dict):
+                        root_val = tmpl.get("repo_root")
+                    if not root_val:
+                        root_val = data.get("template_repo_root")
+                    if root_val:
+                        cfg_path = Path(root_val).expanduser().resolve()
                         if is_valid_repo_root(cfg_path):
                             return cfg_path
             except Exception:
@@ -112,8 +117,12 @@ def resolve_repo_root(cli_arg: Optional[Path], target_dir: Path) -> Path:
                 try:
                     data = SimpleYamlHelper.parse(gfile.read_text(encoding="utf-8"))
                     if isinstance(data, dict):
-                        tmpl = data.get("template", {})
-                        root_val = tmpl.get("repo_root") if isinstance(tmpl, dict) else data.get("template_repo_root")
+                        root_val = None
+                        tmpl = data.get("template")
+                        if isinstance(tmpl, dict):
+                            root_val = tmpl.get("repo_root")
+                        if not root_val:
+                            root_val = data.get("template_repo_root")
                         if root_val:
                             g_path = Path(root_val).expanduser().resolve()
                             if is_valid_repo_root(g_path):

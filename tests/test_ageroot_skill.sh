@@ -31,6 +31,13 @@ python3 "$RUNNER" apply --repo-root "$REPO_ROOT" --target "$TEMP_DIR"
 echo "=== Testing auto-resolution of repo root without --repo-root argument ==="
 python3 "$RUNNER" plan --target "$TEMP_DIR"
 
+echo "=== Testing auto-resolution via flat template_repo_root in global config ==="
+MOCK_HOME="$(mktemp -d /tmp/ageroot_mock_home_XXXXXX)"
+mkdir -p "$MOCK_HOME/.config/ageroot"
+echo "template_repo_root: $REPO_ROOT" > "$MOCK_HOME/.config/ageroot/config.yaml"
+HOME="$MOCK_HOME" XDG_CONFIG_HOME="$MOCK_HOME/.config" python3 "$RUNNER" plan --target "$TEMP_DIR"
+rm -rf "$MOCK_HOME"
+
 echo "=== Testing snapshot-sync after wiping snapshots ==="
 rm -rf "$TEMP_DIR/.agents/snapshots"
 python3 "$RUNNER" snapshot-sync --target "$TEMP_DIR"

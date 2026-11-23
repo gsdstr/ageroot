@@ -84,6 +84,19 @@ class DistributionModuleTests(unittest.TestCase):
         self.assertTrue(clean)
         self.assertEqual(drift, [])
 
+        # Malformed .agents/ageroot.config.yaml MUST be detected as drift
+        for bad_cfg in ("", "THIS IS NOT YAML\n", "project: [unterminated\n"):
+            cfg_path.write_text(bad_cfg)
+            clean, drift = service.check_drift(target_dir=export_dir)
+            self.assertFalse(clean, f"Expected drift for malformed config: {bad_cfg!r}")
+            self.assertTrue(any("modified: .agents/ageroot.config.yaml" in d for d in drift))
+
+        # Restoring valid config
+        cfg_path.write_text("schema: 1\nproject:\n  name: catacombs\n")
+        clean, drift = service.check_drift(target_dir=export_dir)
+        self.assertTrue(clean)
+        self.assertEqual(drift, [])
+
     def legacy_consumer(self):
         """Seed a genuine baseline-backed old installation without old sources."""
         service = DistributionService(repo_root=self.repo_root)
