@@ -71,7 +71,7 @@ prove model access or subscription entitlement.
 
 For Reviewer, pass the active Builder's model and family as exclusions.
 Families include `gpt` (including Codex), `gemini`, `claude`, `llama`, `qwen`,
-and `deepseek`. Opaque/default IDs have family `unknown`; family exclusion
+and `deepseek`, and `mimo`. Opaque/default IDs have family `unknown`; family exclusion
 rejects those because independence cannot be established. Orchestration
 must additionally isolate Reviewer worker context.
 

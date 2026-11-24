@@ -230,7 +230,8 @@ def model_family(model: str) -> str:
     name = model.lower().split('/')[-1]
     for prefix, family in (('gpt-', 'gpt'), ('codex', 'gpt'), ('o1', 'gpt'), ('o3', 'gpt'),
                            ('o4', 'gpt'), ('gemini', 'gemini'), ('claude', 'claude'),
-                           ('llama', 'llama'), ('qwen', 'qwen'), ('deepseek', 'deepseek')):
+                           ('llama', 'llama'), ('qwen', 'qwen'), ('deepseek', 'deepseek'),
+                           ('mimo', 'mimo')):
         if name.startswith(prefix):
             return family
     # An opaque/default model cannot establish Reviewer family independence.

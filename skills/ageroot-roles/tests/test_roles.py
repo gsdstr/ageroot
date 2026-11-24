@@ -187,6 +187,7 @@ class WorkspaceTests(unittest.TestCase):
     def test_family_classification(self):
         self.assertEqual(roles.model_family('provider/claude-sonnet-x'), 'claude')
         self.assertEqual(roles.model_family('codex-auto-review'), 'gpt')
+        self.assertEqual(roles.model_family('mimo/mimo-v2.6-pro'), 'mimo')
         self.assertEqual(roles.model_family('default'), 'unknown')
 
     def test_upward_discovery(self):
