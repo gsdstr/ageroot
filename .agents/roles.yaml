@@ -6,10 +6,10 @@ roles:
         model: gemini-3.8-flash
         effort: high
       - harness: opencode
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
       - harness: hermes
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
       - harness: codex
         model: gpt-6.2-sol
@@ -20,10 +20,10 @@ roles:
         model: gemini-3.8-flash
         effort: high
       - harness: opencode
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
       - harness: hermes
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
       - harness: codex
         model: gpt-6.2-sol
@@ -37,7 +37,7 @@ roles:
         model: gemini-3.8-flash
         effort: high
       - harness: opencode
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
   builder:
     targets:
@@ -48,7 +48,7 @@ roles:
         model: gpt-6.2-sol
         effort: high
       - harness: opencode
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
   reviewer:
     targets:
@@ -70,5 +70,5 @@ roles:
         model: gpt-6.2-sol
         effort: high
       - harness: opencode
-        model: gemini-3.8-flash
+        model: antigravity/gemini-3.8-flash-tiered
         effort: high
